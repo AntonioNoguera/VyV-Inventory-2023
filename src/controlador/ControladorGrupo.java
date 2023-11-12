@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -22,6 +23,7 @@ public class ControladorGrupo implements ActionListener{
         this.gVista=v;
         this.gVista.btnGuardar.addActionListener(this);
         this.gVista.btnEliminar.addActionListener(this);
+        this.gVista.btnLimpiar.addActionListener(this);
         this.gVista.btnActualizar.addActionListener(this);
         
         this.gVista.tablaGrupo.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
@@ -59,6 +61,16 @@ public class ControladorGrupo implements ActionListener{
         if(e.getSource()==gVista.btnActualizar){
             actualizar();
         }
+        
+        if(e.getSource()==gVista.btnLimpiar){
+            clearALL();
+        }
+    }
+     
+    public void clearALL(){
+        gVista.txtGroupID.setText(" ");
+        gVista.txtGrupoNombre.setText(" ");
+        gVista.txtGrupoDesc.setText(" ");
     }
     
     public void listar(JTable tabla){ 

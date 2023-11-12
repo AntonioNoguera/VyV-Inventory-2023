@@ -178,6 +178,11 @@ public class GrupoVista extends javax.swing.JFrame {
         btnEliminar.setText("Eliminar");
 
         btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -274,11 +279,20 @@ public class GrupoVista extends javax.swing.JFrame {
         ControladorDashboard c = new ControladorDashboard(mVista);
 
         mVista.setVisible(true);
-        mVista.setLocationRelativeTo(mVista);
-        c.listar(mVista.MovimientosTabla); 
+        mVista.setLocationRelativeTo(null);
+        c.arrayMembers();
+        c.listar(mVista.MovimientosTabla);  
         this.setVisible(false);
         this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        // TODO add your handling code here:
+        GrupoVista gVista = new GrupoVista(); 
+        gVista.txtGroupID.setText(" ");
+        gVista.txtGrupoNombre.setText(" ");
+        gVista.txtGrupoDesc.setText(" ");
+    }//GEN-LAST:event_btnLimpiarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -316,7 +330,7 @@ public class GrupoVista extends javax.swing.JFrame {
                 ControladorGrupo c = new ControladorGrupo(gVista); 
 
                 gVista.setVisible(true);
-                gVista.setLocationRelativeTo(gVista);
+                gVista.setLocationRelativeTo(null);
                 c.listar(gVista.tablaGrupo); 
             }
         });

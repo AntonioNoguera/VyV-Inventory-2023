@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -23,6 +24,7 @@ public class ControladorElemento implements ActionListener{
         this.eVista.btnGuardar.addActionListener(this);
         this.eVista.btnEliminar.addActionListener(this);
         this.eVista.btnActualizar.addActionListener(this);
+        this.eVista.btnLimpiar.addActionListener(this);
         
         this.eVista.ElementosTabla.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
             @Override
@@ -36,7 +38,14 @@ public class ControladorElemento implements ActionListener{
                         for (int i = 0; i < modelo.getColumnCount(); i++) {
                             rowData[i] = modelo.getValueAt(selectedRow, i);
                         }
-                        
+                        eVista.txtElementoID.setText(String.valueOf(rowData[0]));
+                        eVista.txtElementoNombre.setText(String.valueOf(rowData[1]));
+                        eVista.txtElementoDesc.setText(String.valueOf(rowData[2]));
+                        String[] splitedChain = String.valueOf(rowData[3]).split(" ");
+                        eVista.txtElementoCantidad.setText(String.valueOf(splitedChain[0]));
+                        eVista.txtElementoUnidad.setText(String.valueOf(splitedChain[1]));
+                        eVista.comboBoxGrupo.setSelectedItem(String.valueOf(rowData[4]));
+                                
                         System.out.println(Arrays.toString(rowData));
                     }
                 }
@@ -55,7 +64,8 @@ public class ControladorElemento implements ActionListener{
             object[1] = lista.get(i).getElemento_Nombre(); 
             object[2] = lista.get(i).getElemento_Desc(); 
             object[3] = lista.get(i).getElemento_Cant()+" "+lista.get(i).getElemento_Unidad();
-            object[4] = lista.get(i).getGrupo_ID(); 
+            object[4] = lista.get(i).getGrupo_Name();
+            
             modelo.addRow(object); 
         }
         eVista.ElementosTabla.setModel(modelo);
@@ -96,6 +106,7 @@ public class ControladorElemento implements ActionListener{
         int result = dao.Actualizar(new Elemento(nombre,descripcion,cantidad,unidad,grupo));
         if(result==1){
             System.out.println("Ingresado con éxito");
+            eVista.txtElementoID.setText(" ");
             eVista.txtElementoNombre.setText(" ");
             eVista.txtElementoDesc.setText(" ");
             eVista.txtElementoCantidad.setText(" ");
@@ -149,6 +160,30 @@ public class ControladorElemento implements ActionListener{
         if(e.getSource()==eVista.btnActualizar){
             System.out.println("SE LANZA");
             actualizar();
+        } 
+        if(e.getSource()==eVista.btnLimpiar){
+            System.out.println("SE LANZA");
+            clearALL();
         }
     }
+    
+    public void clearALL(){
+        eVista.txtElementoID.setText(" ");
+        eVista.txtElementoNombre.setText(" ");
+        eVista.txtElementoDesc.setText(" ");
+        eVista.txtElementoCantidad.setText(" ");
+        eVista.txtElementoUnidad.setText(" ");
+        eVista.comboBoxGrupo.setSelectedIndex(0);
+    }
+    
+    public void arrayMembers(){
+        JComboBox<String> comboBox = eVista.comboBoxGrupo;
+        comboBox.removeAllItems();
+        
+        List<String> miembros = dao.elementos();
+        for(String memberUnit : miembros){
+            comboBox.addItem(memberUnit);
+        }
+    }
+    
 }

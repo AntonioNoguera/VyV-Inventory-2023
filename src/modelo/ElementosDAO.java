@@ -13,10 +13,13 @@ public class ElementosDAO {
     Connection con;
     
     PreparedStatement ps;
+    PreparedStatement qs;
     ResultSet rs;
+    ResultSet rsB;
     
     public List listar(){
        String sql = "select * from tabla_elementos";
+       String sqlSelect = "select grupo_nombre from tabla_grupos where grupo_id = ";
        List<Elemento> datos = new ArrayList<>();
        
        try{
@@ -24,14 +27,25 @@ public class ElementosDAO {
             ps=con.prepareStatement(sql);
             rs=ps.executeQuery();
             
-            while(rs.next()){
+            
+            while(rs.next()){ 
+                
                 Elemento e = new Elemento();
                 e.setElemento_ID(rs.getInt(1));  
                 e.setElemento_Nombre(rs.getString(2));  
                 e.setElemento_Desc(rs.getString(3));  
                 e.setElemento_Cant(rs.getFloat(4));  
                 e.setElemento_Unidad(rs.getString(5));  
-                e.setGrupo_ID(rs.getInt(6)); 
+                
+                try{
+                    qs=con.prepareStatement(sqlSelect + rs.getInt(6));
+                    rsB=qs.executeQuery();
+                    while(rsB.next()){
+                        e.setGrupo_Name(rsB.getString(1));  
+                    }
+                }catch(SQLException err){
+                    System.out.println("ERROR SQL: "+err);
+                } 
                 
                 datos.add(e);
             } 
@@ -103,4 +117,24 @@ public class ElementosDAO {
            }
            
     }
+    public List elementos(){ 
+       String sqlSelect = "select grupo_nombre from tabla_grupos";
+        
+       List<String> elementosCombo = new ArrayList<>();
+       
+       try{
+           con=conectar.conectar();
+            ps=con.prepareStatement(sqlSelect);
+            rs=ps.executeQuery();
+            
+            while(rs.next()){  
+                elementosCombo.add(rs.getString(1));
+            } 
+        }catch(SQLException e){
+            System.out.println("No se ejecuto el listado bien: "+e);
+        }
+       
+       return(elementosCombo);
+    }
+    
 }

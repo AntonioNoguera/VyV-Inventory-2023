@@ -77,4 +77,14 @@ public class Elemento {
     public void setGrupo_ID(Integer Grupo_ID) {
         this.Grupo_ID = Grupo_ID;
     }
+
+    public String getGrupo_Name() {
+        return Grupo_Name;
+    }
+
+    public void setGrupo_Name(String Grupo_Name) {
+        this.Grupo_Name = Grupo_Name;
+    }
+    
+    
 }
