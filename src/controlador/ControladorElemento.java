@@ -7,15 +7,15 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.Elemento;
 import modelo.ElementosDAO; 
-import vistas.ElementosVista;
+import vistas.ElementoVista; 
 
 public class ControladorElemento implements ActionListener{ 
     ElementosDAO dao = new ElementosDAO();
     Elemento e = new Elemento();
-    ElementosVista eVista = new ElementosVista();
+    ElementoVista eVista = new ElementoVista();
     DefaultTableModel modelo = new DefaultTableModel(); 
     
-    public ControladorElemento(ElementosVista v){
+    public ControladorElemento(ElementoVista v){
         this.eVista=v;  
     }
     

@@ -1,18 +1,20 @@
 package modelo;
- 
+
 public class Movimientos {
     private Integer Movimiento_ID;
-    private Boolean Movimiento_Tipo;
-    private Integer Elemento_ID;
+    private String Movimiento_Tipo;
+    private String Elemento_Nombre;
+    private Float Movimiento_Cant;
     private String Movimiento_Tiempo;
 
     public Movimientos() {
     }
 
-    public Movimientos(Integer Movimiento_ID, Boolean Movimiento_Tipo, Integer Elemento_ID, String Movimiento_Tiempo) {
+    public Movimientos(Integer Movimiento_ID, String Movimiento_Tipo, String Elemento_Nombre,Float Movimiento_Cant, String Movimiento_Tiempo) {
         this.Movimiento_ID = Movimiento_ID;
         this.Movimiento_Tipo = Movimiento_Tipo;
-        this.Elemento_ID = Elemento_ID;
+        this.Movimiento_Cant = Movimiento_Cant;
+        this.Elemento_Nombre = Elemento_Nombre;
         this.Movimiento_Tiempo = Movimiento_Tiempo;
     }
     
@@ -25,20 +27,20 @@ public class Movimientos {
         this.Movimiento_ID = Movimiento_ID;
     }
 
-    public Boolean getMovimiento_Tipo() {
+    public String getMovimiento_Tipo() {
         return Movimiento_Tipo;
     }
 
-    public void setMovimiento_Tipo(Boolean Movimiento_Tipo) {
+    public void setMovimiento_Tipo(String Movimiento_Tipo) {
         this.Movimiento_Tipo = Movimiento_Tipo;
     }
 
-    public Integer getElemento_ID() {
-        return Elemento_ID;
+    public String getElementoNombre() {
+        return Elemento_Nombre;
     }
 
-    public void setElemento_ID(Integer Elemento_ID) {
-        this.Elemento_ID = Elemento_ID;
+    public void setElementoNombre(String Elemento_Nombre) {
+        this.Elemento_Nombre = Elemento_Nombre;
     }
 
     public String getMovimiento_Tiempo() {
@@ -48,6 +50,12 @@ public class Movimientos {
     public void setMovimiento_Tiempo(String Movimiento_Tiempo) {
         this.Movimiento_Tiempo = Movimiento_Tiempo;
     }
-    
-    
+
+    public Float getMovimiento_Cant() {
+        return Movimiento_Cant;
+    }
+
+    public void setMovimiento_Cant(Float Movimiento_Cant) {
+        this.Movimiento_Cant = Movimiento_Cant;
+    }
 }

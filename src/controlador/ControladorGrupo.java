@@ -7,25 +7,21 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.Grupo;
 import modelo.GrupoDAO;
-import vistas.GruposVista;
+import vistas.GrupoVista;
 
 public class ControladorGrupo implements ActionListener{ 
     
     GrupoDAO dao = new GrupoDAO();
     Grupo g = new Grupo();
-    GruposVista gVista = new GruposVista();
+    GrupoVista gVista = new GrupoVista();
     DefaultTableModel modelo = new DefaultTableModel(); 
     
-    public ControladorGrupo(GruposVista v){
-        this.gVista=v; 
-        this.gVista.btnListar.addActionListener(this);
+    public ControladorGrupo(GrupoVista v){
+        this.gVista=v;  
     }
     
     @Override
-    public void actionPerformed(ActionEvent e){
-        if(e.getSource()==gVista.btnListar){
-            listar(gVista.tablaGrupo);
-        }
+    public void actionPerformed(ActionEvent e){ 
     }
     
     public void listar(JTable tabla){ 
