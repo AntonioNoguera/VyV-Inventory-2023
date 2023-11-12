@@ -25,6 +25,7 @@ public class ControladorDashboard implements ActionListener{
     
     public ControladorDashboard(MainDashBoard v){
         this.dVista=v;  
+        this.dVista.btnGuardar.addActionListener(this);
     }
     
     public void listar(JTable tabla){ 
@@ -32,7 +33,7 @@ public class ControladorDashboard implements ActionListener{
         modelo.setRowCount(0);
         List<Movimientos> lista=dao.listar();
         Object[] object = new Object[6]; 
-        for(int i=0;i<lista.size();i++){
+        for(int i=lista.size()-1;i>-1;i--){
             object[0] = lista.get(i).getMovimiento_ID();
             object[1] = lista.get(i).getElementoNombre();
             object[2] = lista.get(i).getMovimiento_Cant();
@@ -46,7 +47,33 @@ public class ControladorDashboard implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if(e.getSource()==dVista.btnGuardar){
+            agregar();
+        }
     }
+    
+    public void agregar(){
+        Movimientos m = new Movimientos();
+        
+        String tipoMov = (String) dVista.comboEntrada.getSelectedItem();
+        Integer elementoID = (dVista.comboElemento.getSelectedIndex())+1;
+        Float cantidad = Float.valueOf(dVista.txtCantidad.getText());
+        
+        
+        
+        int result = dao.Agregar(new Movimientos(tipoMov, elementoID,cantidad));
+        if(result==1){
+            System.out.println("Ingresado con éxito");
+            dVista.comboEntrada.setSelectedIndex(0);
+            dVista.comboElemento.setSelectedIndex(0);
+            dVista.txtCantidad.setText(" ");
+            
+        }else{
+            System.out.println("ERROR");
+        }
+            
+        listar(dVista.MovimientosTabla);
+    }
+   
 }
 

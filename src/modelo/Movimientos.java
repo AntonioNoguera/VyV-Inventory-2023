@@ -6,6 +6,8 @@ public class Movimientos {
     private String Elemento_Nombre;
     private Float Movimiento_Cant;
     private String Movimiento_Tiempo;
+    
+    private Integer Elemento_ID;
 
     public Movimientos() {
     }
@@ -13,9 +15,23 @@ public class Movimientos {
     public Movimientos(Integer Movimiento_ID, String Movimiento_Tipo, String Elemento_Nombre,Float Movimiento_Cant, String Movimiento_Tiempo) {
         this.Movimiento_ID = Movimiento_ID;
         this.Movimiento_Tipo = Movimiento_Tipo;
-        this.Movimiento_Cant = Movimiento_Cant;
+        this.Movimiento_Cant = Movimiento_Cant; 
         this.Elemento_Nombre = Elemento_Nombre;
         this.Movimiento_Tiempo = Movimiento_Tiempo;
+    }
+    
+    public Movimientos(String Movimiento_Tipo,Integer Elemento_ID,Float Movimiento_Cant) {
+        this.Movimiento_Tipo = Movimiento_Tipo;
+        this.Elemento_ID = Elemento_ID; 
+        this.Movimiento_Cant = Movimiento_Cant;
+    }
+
+    public String getElemento_Nombre() {
+        return Elemento_Nombre;
+    }
+
+    public void setElemento_Nombre(String Elemento_Nombre) {
+        this.Elemento_Nombre = Elemento_Nombre;
     }
     
     
@@ -58,4 +74,14 @@ public class Movimientos {
     public void setMovimiento_Cant(Float Movimiento_Cant) {
         this.Movimiento_Cant = Movimiento_Cant;
     }
+
+    public Integer getElemento_ID() {
+        return Elemento_ID;
+    }
+
+    public void setElemento_ID(Integer Elemento_ID) {
+        this.Elemento_ID = Elemento_ID;
+    }
+    
+    
 }

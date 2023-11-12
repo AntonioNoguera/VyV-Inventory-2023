@@ -7,13 +7,22 @@ public class Elemento {
     private String Elemento_Desc;
     private Float Elemento_Cant;
     private String Elemento_Unidad;
-    private String Grupo_ID;
+    private String Grupo_Name;
+    private Integer Grupo_ID;
 
     public Elemento() {
     }
 
-    public Elemento(Integer Elemento_ID, String Elemento_Nombre, String Elemento_Desc, Float Elemento_Cant, String Elemento_Unidad, String Grupo_ID) {
+    public Elemento(Integer Elemento_ID, String Elemento_Nombre, String Elemento_Desc, Float Elemento_Cant, String Elemento_Unidad, Integer Grupo_ID) {
         this.Elemento_ID = Elemento_ID;
+        this.Elemento_Nombre = Elemento_Nombre;
+        this.Elemento_Desc = Elemento_Desc;
+        this.Elemento_Cant = Elemento_Cant;
+        this.Elemento_Unidad = Elemento_Unidad;
+        this.Grupo_ID = Grupo_ID;
+    }
+    
+    public Elemento(String Elemento_Nombre, String Elemento_Desc, Float Elemento_Cant, String Elemento_Unidad, Integer Grupo_ID){
         this.Elemento_Nombre = Elemento_Nombre;
         this.Elemento_Desc = Elemento_Desc;
         this.Elemento_Cant = Elemento_Cant;
@@ -61,11 +70,11 @@ public class Elemento {
         this.Elemento_Unidad = Elemento_Unidad;
     }
 
-    public String getGrupo_ID() {
+    public Integer getGrupo_ID() {
         return Grupo_ID;
     }
 
-    public void setGrupo_ID(String Grupo_ID) {
+    public void setGrupo_ID(Integer Grupo_ID) {
         this.Grupo_ID = Grupo_ID;
     }
 }

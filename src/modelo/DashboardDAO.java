@@ -31,7 +31,7 @@ public class DashboardDAO {
             while(rs.next()){
                 Movimientos e = new Movimientos();
                 e.setMovimiento_ID(rs.getInt(1));  
-                e.setMovimiento_Tipo(String.valueOf(rs.getInt(2)));  
+                e.setMovimiento_Tipo(rs.getString(2));  
                 
                 try{
                     qs=con.prepareStatement(sqlSelect + rs.getInt(3));
@@ -52,4 +52,23 @@ public class DashboardDAO {
         }
         return datos;
     }
+    
+    public int Agregar(Movimientos m){
+           String sql = "INSERT INTO tabla_movimientos(movimiento_tipo,elemento_id,movimiento_cant) VALUES (?,?,?)";
+           try{
+               con = conectar.conectar();
+               ps=con.prepareStatement(sql);
+               
+               ps.setString(1, m.getMovimiento_Tipo());
+               ps.setInt(2, m.getElemento_ID());
+               ps.setFloat(3, m.getMovimiento_Cant());
+               
+               ps.executeUpdate();
+               return 1;
+           }catch(SQLException e){
+               System.out.println("Error"+e);
+               return 0;
+           }
+    }
+   
 }
