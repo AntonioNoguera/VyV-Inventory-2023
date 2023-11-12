@@ -9,14 +9,14 @@ import modelo.Grupo;
 import modelo.GrupoDAO;
 import vistas.GruposVista;
 
-public class Controlador implements ActionListener{ 
+public class ControladorGrupo implements ActionListener{ 
     
     GrupoDAO dao = new GrupoDAO();
     Grupo g = new Grupo();
     GruposVista gVista = new GruposVista();
     DefaultTableModel modelo = new DefaultTableModel(); 
     
-    public Controlador(GruposVista v){
+    public ControladorGrupo(GruposVista v){
         this.gVista=v; 
         this.gVista.btnListar.addActionListener(this);
     }

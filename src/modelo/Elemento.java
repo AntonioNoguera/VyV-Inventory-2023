@@ -1,3 +1,4 @@
+
 package modelo; 
 
 public class Elemento {
@@ -67,6 +68,4 @@ public class Elemento {
     public void setGrupo_ID(String Grupo_ID) {
         this.Grupo_ID = Grupo_ID;
     }
-    
-    
 }
