@@ -61,4 +61,46 @@ public class ElementosDAO {
            }
            
     }
+    
+    public int Actualizar(Elemento e){
+           String sql = "";
+           try{
+               con = conectar.conectar();
+               ps=con.prepareStatement(sql);
+               ps.setString(1, e.getElemento_Nombre());
+               ps.setString(2, e.getElemento_Desc());
+               ps.setFloat(3, e.getElemento_Cant());
+               ps.setString(4, e.getElemento_Unidad());
+               ps.setInt(5, e.getGrupo_ID());
+               ps.executeUpdate();
+               return 1;
+               
+           }catch(SQLException er){
+               System.out.println("Error: "+er);
+               return 0;
+               
+           }
+           
+    }
+    
+    public int Eliminar(Elemento e){
+           String sql = "";
+           try{
+               con = conectar.conectar();
+               ps=con.prepareStatement(sql);
+               ps.setString(1, e.getElemento_Nombre());
+               ps.setString(2, e.getElemento_Desc());
+               ps.setFloat(3, e.getElemento_Cant());
+               ps.setString(4, e.getElemento_Unidad());
+               ps.setInt(5, e.getGrupo_ID());
+               ps.executeUpdate();
+               return 1;
+               
+           }catch(SQLException er){
+               System.out.println("Error: "+er);
+               return 0;
+               
+           }
+           
+    }
 }

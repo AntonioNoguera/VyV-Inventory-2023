@@ -7,7 +7,10 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import modelo.DashboardDAO;
 import modelo.Movimientos;
@@ -26,6 +29,29 @@ public class ControladorDashboard implements ActionListener{
     public ControladorDashboard(MainDashBoard v){
         this.dVista=v;  
         this.dVista.btnGuardar.addActionListener(this);
+        this.dVista.MovimientosTabla.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = dVista.MovimientosTabla.getSelectedRow();
+                    if (selectedRow != -1) {
+                        // Obtener datos de la fila seleccionada
+                        Object[] rowData = new Object[modelo.getColumnCount()];
+                         
+                        for (int i = 0; i < modelo.getColumnCount(); i++) {
+                            rowData[i] = modelo.getValueAt(selectedRow, i);
+                        }
+                        dVista.txtMovimientoID.setText(String.valueOf(rowData[0]));
+                        dVista.comboEntrada.setSelectedItem(String.valueOf(rowData[3]));
+                        dVista.comboElemento.setSelectedItem(String.valueOf(rowData[1]));
+                        dVista.txtCantidad.setText(String.valueOf(rowData[2]));  
+                    }
+                }
+            }
+        });
+        
+        this.dVista.btnEliminar.addActionListener(this);
+        this.dVista.btnActualizar.addActionListener(this);
     }
     
     public void listar(JTable tabla){ 
@@ -50,20 +76,69 @@ public class ControladorDashboard implements ActionListener{
         if(e.getSource()==dVista.btnGuardar){
             agregar();
         }
+        
+        if(e.getSource()==dVista.btnEliminar){
+            eliminar();
+        }
+        
+        if(e.getSource()==dVista.btnActualizar){
+            actualizar();
+        }
+    }
+    
+    public void eliminar(){
+        Movimientos m = new Movimientos();
+        
+        String tipoMov = (String) dVista.comboEntrada.getSelectedItem();
+        String elementoNombre = (String) dVista.comboElemento.getSelectedItem();
+        Float cantidad = Float.valueOf(dVista.txtCantidad.getText());
+        
+         dao.Eliminar(new Movimientos(tipoMov, elementoNombre,cantidad));
+        
+         /*if(result==1){
+            dVista.comboEntrada.setSelectedIndex(0);
+            dVista.comboElemento.setSelectedIndex(0);
+            dVista.txtCantidad.setText(" ");
+            
+        }else{
+            System.out.println("ERROR");
+        }
+            */
+        listar(dVista.MovimientosTabla);
+    }
+
+    public void actualizar(){
+        Movimientos m = new Movimientos();
+        
+        String tipoMov = (String) dVista.comboEntrada.getSelectedItem();
+        String elementoNombre = (String) dVista.comboElemento.getSelectedItem();
+        Float cantidad = Float.valueOf(dVista.txtCantidad.getText());
+        
+         dao.Actualizar(new Movimientos(tipoMov, elementoNombre,cantidad));
+        
+         /*if(result==1){
+            dVista.comboEntrada.setSelectedIndex(0);
+            dVista.comboElemento.setSelectedIndex(0);
+            dVista.txtCantidad.setText(" ");
+            
+        }else{
+            System.out.println("ERROR");
+        }
+            */
+        listar(dVista.MovimientosTabla);
     }
     
     public void agregar(){
         Movimientos m = new Movimientos();
         
         String tipoMov = (String) dVista.comboEntrada.getSelectedItem();
-        Integer elementoID = (dVista.comboElemento.getSelectedIndex())+1;
+        String elementoNombre = (String) dVista.comboElemento.getSelectedItem();
         Float cantidad = Float.valueOf(dVista.txtCantidad.getText());
         
         
         
-        int result = dao.Agregar(new Movimientos(tipoMov, elementoID,cantidad));
+        int result = dao.Agregar(new Movimientos(tipoMov, elementoNombre,cantidad));
         if(result==1){
-            System.out.println("Ingresado con éxito");
             dVista.comboEntrada.setSelectedIndex(0);
             dVista.comboElemento.setSelectedIndex(0);
             dVista.txtCantidad.setText(" ");
@@ -75,5 +150,14 @@ public class ControladorDashboard implements ActionListener{
         listar(dVista.MovimientosTabla);
     }
    
+    public void arrayMembers(){
+        JComboBox<String> comboBox = dVista.comboElemento;
+        comboBox.removeAllItems();
+        
+        List<String> miembros = dao.elementos();
+        for(String memberUnit : miembros){
+            comboBox.addItem(memberUnit);
+        }
+    }
 }
 

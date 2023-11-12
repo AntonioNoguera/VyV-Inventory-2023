@@ -19,8 +19,7 @@ public class conexion {
     public Connection conectar(){
         try {
             Class.forName(driver);
-            cx = DriverManager.getConnection(url+db,user,password);
-            System.out.println("Se conecto!");
+            cx = DriverManager.getConnection(url+db,user,password); 
         }catch (ClassNotFoundException |SQLException ex){ 
             System.out.println("No se conecto!");
             Logger.getLogger(conexion.class.getName()).log(Level.SEVERE, null, ex);

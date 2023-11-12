@@ -20,9 +20,9 @@ public class Movimientos {
         this.Movimiento_Tiempo = Movimiento_Tiempo;
     }
     
-    public Movimientos(String Movimiento_Tipo,Integer Elemento_ID,Float Movimiento_Cant) {
+    public Movimientos(String Movimiento_Tipo,String Elemento_Nombre,Float Movimiento_Cant) {
         this.Movimiento_Tipo = Movimiento_Tipo;
-        this.Elemento_ID = Elemento_ID; 
+        this.Elemento_Nombre = Elemento_Nombre; 
         this.Movimiento_Cant = Movimiento_Cant;
     }
 
