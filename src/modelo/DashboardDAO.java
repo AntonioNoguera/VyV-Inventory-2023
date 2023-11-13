@@ -77,6 +77,7 @@ public class DashboardDAO {
     }
     
     public int Agregar(Movimientos m){
+        System.out.println("DAO");
            String sql = "INSERT INTO tabla_movimientos(movimiento_tipo,elemento_id,movimiento_cant) VALUES (?,?,?)";
            String sql2 = "SELECT elemento_id FROM tabla_elementos WHERE elemento_nombre = ?";
            
@@ -108,11 +109,47 @@ public class DashboardDAO {
     }
    
     
-    public void Eliminar(Movimientos m){
-        System.out.println("ELIMINAR");
+    public Integer Eliminar(Movimientos m){
+        String sql = "DELETE FROM tabla_movimientos WHERE movimiento_id=";
+           try{
+               con = conectar.conectar();
+               ps=con.prepareStatement(sql+m.getMovimiento_ID()); 
+               ps.executeUpdate();
+               return 1;
+           }catch(SQLException e){
+               System.out.println("Error"+e);
+               return 0;
+           }
     }
     
-    public void Actualizar(Movimientos m){
-        System.out.println("Actualizar");
+    public int Actualizar(Movimientos m){
+           String sql = "UPDATE tabla_movimientos SET movimiento_tipo=?,elemento_id=?,movimiento_cant=?,movimiento_tiempo=CURRENT_TIMESTAMP WHERE movimiento_id=?";
+           String sql2 = "SELECT elemento_id FROM tabla_elementos WHERE elemento_nombre =?";
+           
+           try{
+               con = conectar.conectar();
+               ps=con.prepareStatement(sql);
+               
+               ps.setString(1, m.getMovimiento_Tipo());
+               
+               try{
+                   qs=con.prepareStatement(sql2); 
+                   qs.setString(1, m.getElementoNombre());
+                   rs=qs.executeQuery();
+                   while(rs.next()){  
+                        ps.setInt(2,rs.getInt(1));
+                    }
+               }catch(SQLException e){
+                   System.out.println("Error aaa"+e);
+               }
+               
+               ps.setFloat(3, m.getMovimiento_Cant());
+               ps.setInt(4, m.getMovimiento_ID());
+               ps.executeUpdate();
+               return 1;
+           }catch(SQLException e){
+               System.out.println("Error"+e);
+               return 0;
+           }
     }
 }

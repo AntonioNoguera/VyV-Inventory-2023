@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
  
 public class ElementosDAO {
@@ -77,7 +78,8 @@ public class ElementosDAO {
     }
     
     public int Actualizar(Elemento e){
-           String sql = "";
+           
+           String sql = "UPDATE tabla_elementos SET elemento_nombre=?,elemento_desc=?,elemento_cant=?,elemento_unidad=?,grupo_id=? WHERE elemento_id=?";
            try{
                con = conectar.conectar();
                ps=con.prepareStatement(sql);
@@ -86,6 +88,7 @@ public class ElementosDAO {
                ps.setFloat(3, e.getElemento_Cant());
                ps.setString(4, e.getElemento_Unidad());
                ps.setInt(5, e.getGrupo_ID());
+               ps.setInt(6, e.getElemento_ID());
                ps.executeUpdate();
                return 1;
                
@@ -97,26 +100,44 @@ public class ElementosDAO {
            
     }
     
-    public int Eliminar(Elemento e){
-           String sql = "";
+    public int Eliminar(Elemento elem){
+           String sql = "DELETE FROM tabla_elementos WHERE elemento_id=";
+           String sqlV = "SELECT movimiento_id FROM tabla_movimientos WHERE elemento_id=";
+           
            try{
                con = conectar.conectar();
-               ps=con.prepareStatement(sql);
-               ps.setString(1, e.getElemento_Nombre());
-               ps.setString(2, e.getElemento_Desc());
-               ps.setFloat(3, e.getElemento_Cant());
-               ps.setString(4, e.getElemento_Unidad());
-               ps.setInt(5, e.getGrupo_ID());
-               ps.executeUpdate();
-               return 1;
+               qs=con.prepareStatement(sqlV+elem.getElemento_ID()); 
+               rsB=qs.executeQuery(); 
                
-           }catch(SQLException er){
-               System.out.println("Error: "+er);
+               List<String> members = new  ArrayList<>();
+               while(rsB.next()){
+                   members.add(rsB.getString(1));
+               }
+               
+               if(members.isEmpty()){
+                   //NO HAY ERRORES DE LLAVES
+                   try{
+                        con = conectar.conectar();
+                        ps=con.prepareStatement(sql+elem.getElemento_ID()); 
+                        ps.executeUpdate();
+                        return 1;
+                    }catch(SQLException e){
+                        System.out.println("Error"+e);
+                        return 0;
+                    }
+               }else{
+                   //Errores de Llaves
+                   System.out.println(Arrays.toString(members.toArray()));
+                   System.out.println("ERRORES DE LLAVES");
+               }
+               
+           }catch(SQLException err){
+               System.out.println("ERROR:"+err);
                return 0;
-               
            }
-           
+        return 0;
     }
+           
     public List elementos(){ 
        String sqlSelect = "select grupo_nombre from tabla_grupos";
         

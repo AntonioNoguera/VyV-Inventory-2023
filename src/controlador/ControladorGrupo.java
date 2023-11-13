@@ -108,17 +108,13 @@ public class ControladorGrupo implements ActionListener{
     }
     
     public void eliminar(){
-        Grupo g = new Grupo();
-        String nombre = gVista.txtGrupoNombre.getText();
-        String descripcion = gVista.txtGrupoDesc.getText();
-        g.setGrupo_Nombre(nombre);
-        g.setGrupo_Desc(descripcion);
+        Grupo g = new Grupo(); 
+        g.setGrupo_ID(Integer.valueOf(gVista.txtGroupID.getText()));
         
         int result = dao.Eliminar(g);
         if(result==1){
             System.out.println("Ingresado con éxito");
-            gVista.txtGrupoNombre.setText(" ");
-            gVista.txtGrupoDesc.setText(" ");
+            clearALL();
             
         }else{
             System.out.println("ERROR");
@@ -129,8 +125,11 @@ public class ControladorGrupo implements ActionListener{
     
     public void actualizar(){
         Grupo g = new Grupo();
+        Integer id = Integer.valueOf(gVista.txtGroupID.getText());
         String nombre = gVista.txtGrupoNombre.getText();
         String descripcion = gVista.txtGrupoDesc.getText();
+        
+        g.setGrupo_ID(id);
         g.setGrupo_Nombre(nombre);
         g.setGrupo_Desc(descripcion);
         

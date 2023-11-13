@@ -6,6 +6,7 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.Timestamp;
 import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
@@ -94,42 +95,25 @@ public class ControladorDashboard implements ActionListener{
     public void eliminar(){
         Movimientos m = new Movimientos();
         
-        String tipoMov = (String) dVista.comboEntrada.getSelectedItem();
-        String elementoNombre = (String) dVista.comboElemento.getSelectedItem();
-        Float cantidad = Float.valueOf(dVista.txtCantidad.getText());
-        
-         dao.Eliminar(new Movimientos(tipoMov, elementoNombre,cantidad));
-        
-         /*if(result==1){
-            dVista.comboEntrada.setSelectedIndex(0);
-            dVista.comboElemento.setSelectedIndex(0);
-            dVista.txtCantidad.setText(" ");
+        m.setMovimiento_ID(Integer.valueOf(dVista.txtMovimientoID.getText()));
+         if(dao.Eliminar(m)==1){
+            ClearALL();
             
         }else{
             System.out.println("ERROR");
         }
-            */
+           
         listar(dVista.MovimientosTabla);
     }
 
-    public void actualizar(){
-        Movimientos m = new Movimientos();
+    public void actualizar(){  
         
         String tipoMov = (String) dVista.comboEntrada.getSelectedItem();
         String elementoNombre = (String) dVista.comboElemento.getSelectedItem();
         Float cantidad = Float.valueOf(dVista.txtCantidad.getText());
-        
-         dao.Actualizar(new Movimientos(tipoMov, elementoNombre,cantidad));
-        
-         /*if(result==1){
-            dVista.comboEntrada.setSelectedIndex(0);
-            dVista.comboElemento.setSelectedIndex(0);
-            dVista.txtCantidad.setText(" ");
-            
-        }else{
-            System.out.println("ERROR");
-        }
-            */
+        Integer id = Integer.valueOf(dVista.txtMovimientoID.getText()); 
+        System.out.println(tipoMov+" "+elementoNombre+" "+cantidad+" "+id+" ");
+        dao.Actualizar(new Movimientos(id,tipoMov, elementoNombre,cantidad));
         listar(dVista.MovimientosTabla);
     }
     
@@ -144,7 +128,7 @@ public class ControladorDashboard implements ActionListener{
     
     public void agregar(){
         Movimientos m = new Movimientos();
-        
+        System.out.println("CONTROLLER");
         String tipoMov = (String) dVista.comboEntrada.getSelectedItem();
         String elementoNombre = (String) dVista.comboElemento.getSelectedItem();
         Float cantidad = Float.valueOf(dVista.txtCantidad.getText()); 

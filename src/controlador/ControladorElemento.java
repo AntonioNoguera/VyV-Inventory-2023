@@ -81,11 +81,7 @@ public class ControladorElemento implements ActionListener{
         int result = dao.Agregar(new Elemento(nombre,descripcion,cantidad,unidad,grupo));
         if(result==1){
             System.out.println("Ingresado con éxito");
-            eVista.txtElementoNombre.setText(" ");
-            eVista.txtElementoDesc.setText(" ");
-            eVista.txtElementoCantidad.setText(" ");
-            eVista.txtElementoUnidad.setText(" ");
-            eVista.comboBoxGrupo.setSelectedIndex(0);
+            clearALL();
             
         }else{
             System.out.println("ERROR");
@@ -96,22 +92,17 @@ public class ControladorElemento implements ActionListener{
     
     public void actualizar(){ 
         System.out.println("ACTUALIZAR");
-        
+        Integer ID = Integer.valueOf(eVista.txtElementoID.getText());
         String nombre = eVista.txtElementoNombre.getText();
         String descripcion = eVista.txtElementoDesc.getText();
         Float cantidad = Float.valueOf(eVista.txtElementoCantidad.getText());
         String unidad = eVista.txtElementoUnidad.getText();
         Integer grupo = eVista.comboBoxGrupo.getSelectedIndex()+1; 
         
-        int result = dao.Actualizar(new Elemento(nombre,descripcion,cantidad,unidad,grupo));
+        int result = dao.Actualizar(new Elemento(ID,nombre,descripcion,cantidad,unidad,grupo));
         if(result==1){
             System.out.println("Ingresado con éxito");
-            eVista.txtElementoID.setText(" ");
-            eVista.txtElementoNombre.setText(" ");
-            eVista.txtElementoDesc.setText(" ");
-            eVista.txtElementoCantidad.setText(" ");
-            eVista.txtElementoUnidad.setText(" ");
-            eVista.comboBoxGrupo.setSelectedIndex(0);
+            clearALL();
             
         }else{
             System.out.println("ERROR");
@@ -122,21 +113,15 @@ public class ControladorElemento implements ActionListener{
     
     public void eliminar(){ 
         System.out.println("ELIMINAR");
+        Elemento e = new Elemento();
         
-        String nombre = eVista.txtElementoNombre.getText();
-        String descripcion = eVista.txtElementoDesc.getText();
-        Float cantidad = Float.valueOf(eVista.txtElementoCantidad.getText());
-        String unidad = eVista.txtElementoUnidad.getText();
-        Integer grupo = eVista.comboBoxGrupo.getSelectedIndex()+1; 
+        e.setElemento_ID(Integer.valueOf(eVista.txtElementoID.getText()));
+        //Integer nombre = eVista.txtElementoNombre.getText(); 
         
-        int result = dao.Eliminar(new Elemento(nombre,descripcion,cantidad,unidad,grupo));
+        int result = dao.Eliminar(e);
         if(result==1){
             System.out.println("Ingresado con éxito");
-            eVista.txtElementoNombre.setText(" ");
-            eVista.txtElementoDesc.setText(" ");
-            eVista.txtElementoCantidad.setText(" ");
-            eVista.txtElementoUnidad.setText(" ");
-            eVista.comboBoxGrupo.setSelectedIndex(0);
+            clearALL();
             
         }else{
             System.out.println("ERROR");
