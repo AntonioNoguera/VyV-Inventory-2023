@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.JOptionPane;
  
 public class ElementosDAO {
     conexion conectar = new conexion();
@@ -58,6 +59,35 @@ public class ElementosDAO {
     
     public int Agregar(Elemento e){
            String sql = "INSERT INTO tabla_elementos(elemento_nombre, elemento_desc, elemento_cant, elemento_unidad, grupo_id) VALUES (?,?,?,?,?)";
+           String sql2 = "SELECT grupo_id FROM tabla_grupos WHERE grupo_nombre = ?";
+           System.out.println(e.getGrupo_Name()); 
+           //Comprobación de duplicados
+           String sql3= "SELECT COUNT(*) FROM tabla_elementos WHERE elemento_nombre = ?";
+           
+           Integer nameCount=0;
+           
+           try{
+               con = conectar.conectar();
+               ps=con.prepareStatement(sql3);
+               ps.setString(1, e.getElemento_Nombre());
+               rsB=ps.executeQuery();
+               if(rsB.next()){ 
+                    nameCount = rsB.getInt(1);
+               }
+               System.out.println("NAME COUNT:"+nameCount);
+           }catch(SQLException er){
+                System.out.println("Error: "+er);
+                return 0;
+           }
+           
+           if(nameCount>0){
+               //Ya existe un registro con ese nombre
+                JOptionPane.showMessageDialog(null, "Ya existe un elemento registrado con ese nombre, prueba con otro, o intenta actualizar anterior registro!.", "Alerta", JOptionPane.WARNING_MESSAGE);
+                return 0;
+           }
+           
+           
+           //Ejecución
            try{
                con = conectar.conectar();
                ps=con.prepareStatement(sql);
@@ -65,7 +95,18 @@ public class ElementosDAO {
                ps.setString(2, e.getElemento_Desc());
                ps.setFloat(3, e.getElemento_Cant());
                ps.setString(4, e.getElemento_Unidad());
-               ps.setInt(5, e.getGrupo_ID());
+               
+               try{
+                    
+                    qs=con.prepareStatement(sql2);
+                    qs.setString(1, e.getGrupo_Name());
+                    rsB=qs.executeQuery();
+                    while(rsB.next()){ 
+                        ps.setInt(5, rsB.getInt(1));
+                    }
+                }catch(SQLException err){
+                    System.out.println("ERROR SQL: "+err);
+                }
                ps.executeUpdate();
                return 1;
                
@@ -78,8 +119,51 @@ public class ElementosDAO {
     }
     
     public int Actualizar(Elemento e){
+            
+        String previousName="";
+        String sql3= "SELECT COUNT(*) FROM tabla_elementos WHERE elemento_nombre = ?";
+        String sql4 = "SELECT elemento_nombre FROM tabla_elementos WHERE elemento_id = ?";
            
+           Integer nameCount=0;
+           //Getting Count
+           try{
+               con = conectar.conectar();
+               ps=con.prepareStatement(sql3);
+               ps.setString(1, e.getElemento_Nombre());
+               rsB=ps.executeQuery();
+               if(rsB.next()){ 
+                    nameCount = rsB.getInt(1);
+               }
+               System.out.println("NAME COUNT:"+nameCount);
+           }catch(SQLException er){
+                System.out.println("Error: "+er);
+                return 0;
+           }
+           //GettingName
+           try{
+               con = conectar.conectar();
+               ps=con.prepareStatement(sql4);
+               ps.setInt(1,e.getElemento_ID());
+               rsB=ps.executeQuery();
+               if(rsB.next()){ 
+                    previousName = rsB.getString(1);
+               }
+               System.out.println("NAME COUNT:"+nameCount);
+           }catch(SQLException er){
+                System.out.println("Error: "+er);
+                return 0;
+           }
+           
+           if(nameCount>0 && !previousName.equals(e.getElemento_Nombre())){
+               //Ya existe un registro con ese nombre
+               System.out.println("PREVIUS NAME: "+previousName);
+                JOptionPane.showMessageDialog(null, "Ya existe un elemento registrado con ese nombre, prueba con otro, o intenta actualizar anterior registro!.", "Alerta", JOptionPane.WARNING_MESSAGE);
+                return 0;
+           }
+        
+        
            String sql = "UPDATE tabla_elementos SET elemento_nombre=?,elemento_desc=?,elemento_cant=?,elemento_unidad=?,grupo_id=? WHERE elemento_id=?";
+           String sql2 = "SELECT grupo_id FROM tabla_grupos WHERE grupo_nombre = ?";
            try{
                con = conectar.conectar();
                ps=con.prepareStatement(sql);
@@ -87,7 +171,18 @@ public class ElementosDAO {
                ps.setString(2, e.getElemento_Desc());
                ps.setFloat(3, e.getElemento_Cant());
                ps.setString(4, e.getElemento_Unidad());
-               ps.setInt(5, e.getGrupo_ID());
+               
+               try{
+                    qs=con.prepareStatement(sql2);
+                    qs.setString(1, e.getGrupo_Name());
+                    rsB=qs.executeQuery();
+                    while(rsB.next()){ 
+                        ps.setInt(5, rsB.getInt(1));
+                    }
+                }catch(SQLException err){
+                    System.out.println("ERROR SQL: "+err);
+                }
+               
                ps.setInt(6, e.getElemento_ID());
                ps.executeUpdate();
                return 1;
@@ -116,27 +211,71 @@ public class ElementosDAO {
                
                if(members.isEmpty()){
                    //NO HAY ERRORES DE LLAVES
-                   try{
-                        con = conectar.conectar();
-                        ps=con.prepareStatement(sql+elem.getElemento_ID()); 
-                        ps.executeUpdate();
-                        return 1;
-                    }catch(SQLException e){
-                        System.out.println("Error"+e);
-                        return 0;
-                    }
+                    try{
+                         con = conectar.conectar();
+                         ps=con.prepareStatement(sql+elem.getElemento_ID()); 
+                         ps.executeUpdate();
+                         return 1;
+                     }catch(SQLException e){
+                         System.out.println("Errors"+e);
+                         return 0;
+                     }
                }else{
                    //Errores de Llaves
                    System.out.println(Arrays.toString(members.toArray()));
-                   System.out.println("ERRORES DE LLAVES");
+                   Object[] opciones = {"Estoy Completamente Seguro", "No, cancelar"};
+
+                int seleccion = JOptionPane.showOptionDialog(
+                    null,
+                    "Se han encontrado los siguientes ID de registros con este elemento, ¿esta seguro de continuar?\n"+members.toString(),
+                    "Confirmación",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    opciones,
+                    opciones[0] // Botón predeterminado
+                );
+
+                 if (seleccion == JOptionPane.YES_OPTION) {
+                    deleteALL(elem.getElemento_ID()); 
+                    return 1;
+                    
+                } else if (seleccion == JOptionPane.NO_OPTION || seleccion == JOptionPane.CLOSED_OPTION) {
+                    return 0;
+                }
                }
                
            }catch(SQLException err){
-               System.out.println("ERROR:"+err);
+               System.out.println("ERRORa:"+err);
                return 0;
            }
         return 0;
     }
+    
+    public void deleteALL(Integer idElemento){
+        String sql2 = "DELETE FROM tabla_elementos WHERE elemento_id=?";
+        String sql = "DELETE FROM tabla_movimientos WHERE elemento_id=?";
+        try{
+            con = conectar.conectar();
+            
+            ps=con.prepareStatement(sql); 
+            ps.setInt(1,idElemento);
+            ps.executeUpdate(); 
+        }catch(SQLException e){
+            System.out.println("ERROR MOVES"+e); 
+        }
+        
+        try{
+            con = conectar.conectar();
+            
+            ps=con.prepareStatement(sql2); 
+            ps.setInt(1,idElemento);
+            ps.executeUpdate(); 
+        }catch(SQLException e){
+            System.out.println("ERROR ELEMENTO"+e); 
+        }
+    }
+    
            
     public List elementos(){ 
        String sqlSelect = "select grupo_nombre from tabla_grupos";

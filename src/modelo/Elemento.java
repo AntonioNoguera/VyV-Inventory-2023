@@ -13,21 +13,21 @@ public class Elemento {
     public Elemento() {
     }
 
-    public Elemento(Integer Elemento_ID, String Elemento_Nombre, String Elemento_Desc, Float Elemento_Cant, String Elemento_Unidad, Integer Grupo_ID) {
+    public Elemento(Integer Elemento_ID, String Elemento_Nombre, String Elemento_Desc, Float Elemento_Cant, String Elemento_Unidad, String Grupo_Name) {
         this.Elemento_ID = Elemento_ID;
         this.Elemento_Nombre = Elemento_Nombre;
         this.Elemento_Desc = Elemento_Desc;
         this.Elemento_Cant = Elemento_Cant;
         this.Elemento_Unidad = Elemento_Unidad;
-        this.Grupo_ID = Grupo_ID;
+        this.Grupo_Name = Grupo_Name;
     }
     
-    public Elemento(String Elemento_Nombre, String Elemento_Desc, Float Elemento_Cant, String Elemento_Unidad, Integer Grupo_ID){
+    public Elemento(String Elemento_Nombre, String Elemento_Desc, Float Elemento_Cant, String Elemento_Unidad, String Grupo_Name){
         this.Elemento_Nombre = Elemento_Nombre;
         this.Elemento_Desc = Elemento_Desc;
         this.Elemento_Cant = Elemento_Cant;
         this.Elemento_Unidad = Elemento_Unidad;
-        this.Grupo_ID = Grupo_ID;
+        this.Grupo_Name = Grupo_Name;
     }
 
     public Integer getElemento_ID() {
@@ -85,6 +85,4 @@ public class Elemento {
     public void setGrupo_Name(String Grupo_Name) {
         this.Grupo_Name = Grupo_Name;
     }
-    
-    
 }

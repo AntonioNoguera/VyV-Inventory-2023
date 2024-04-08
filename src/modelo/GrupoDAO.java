@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class GrupoDAO {
     conexion conectar = new conexion();
@@ -19,6 +20,8 @@ public class GrupoDAO {
     public List listar(){
         String sql="select * from tabla_grupos";
         List<Grupo> datos = new ArrayList<>();
+        
+        
         try{
             con=conectar.conectar();
             ps=con.prepareStatement(sql);
@@ -37,6 +40,32 @@ public class GrupoDAO {
     }
     
     public int Agregar(Grupo g){
+        String sql3= "SELECT COUNT(*) FROM tabla_grupos WHERE grupo_nombre = ?";
+           
+           Integer nameCount=0;
+           
+           try{
+               con = conectar.conectar();
+               ps=con.prepareStatement(sql3);
+               ps.setString(1, g.getGrupo_Nombre());
+               rsB=ps.executeQuery();
+               if(rsB.next()){ 
+                    nameCount = rsB.getInt(1);
+               }
+               System.out.println("NAME COUNT:"+nameCount);
+           }catch(SQLException er){
+                System.out.println("Error: "+er);
+                return 0;
+           }
+           
+           if(nameCount>0){
+               //Ya existe un registro con ese nombre
+                JOptionPane.showMessageDialog(null, "Ya existe un elemento registrado con ese nombre, prueba con otro, o intenta actualizar anterior registro!.", "Alerta", JOptionPane.WARNING_MESSAGE);
+                return 0;
+           }
+           
+        
+        
            String sql = "INSERT INTO tabla_grupos(grupo_nombre,grupo_desc) VALUES (?,?)";
            try{
                con = conectar.conectar();
@@ -79,7 +108,8 @@ public class GrupoDAO {
                     }
                }else{
                    //Errores de Llaves
-                   System.out.println("ERRORES DE LLAVES");
+                    JOptionPane.showMessageDialog(null, "Los siguientes elementos pertenecen a este grupo, \nintenta cambiarlos de grupo antes de eliminar este grupo: \n"+members.toString(), "Alerta", JOptionPane.WARNING_MESSAGE);
+
                }
                
            }catch(SQLException err){
@@ -91,6 +121,47 @@ public class GrupoDAO {
     
     public int Actualizar(Grupo g){
         System.out.println("ACTUALIZAR");
+        String previousName="";
+        String sql3= "SELECT COUNT(*) FROM tabla_grupos WHERE grupo_nombre = ?";
+        String sql4 = "SELECT grupo_nombre FROM tabla_grupos WHERE grupo_id = ?";
+           
+           Integer nameCount=0;
+           //Getting Count
+           try{
+               con = conectar.conectar();
+               ps=con.prepareStatement(sql3);
+               ps.setString(1, g.getGrupo_Nombre());
+               rsB=ps.executeQuery();
+               if(rsB.next()){ 
+                    nameCount = rsB.getInt(1);
+               }
+               System.out.println("NAME COUNT:"+nameCount);
+           }catch(SQLException er){
+                System.out.println("Error: "+er);
+                return 0;
+           }
+           //GettingName
+           try{
+               con = conectar.conectar();
+               ps=con.prepareStatement(sql4);
+               ps.setInt(1, g.getGrupo_ID());
+               rsB=ps.executeQuery();
+               if(rsB.next()){ 
+                    previousName = rsB.getString(1);
+               }
+               System.out.println("NAME COUNT:"+nameCount);
+           }catch(SQLException er){
+                System.out.println("Error: "+er);
+                return 0;
+           }
+           
+           if(nameCount>0 && !previousName.equals(g.getGrupo_Nombre())){
+               //Ya existe un registro con ese nombre
+               System.out.println("PREVIUS NAME: "+previousName);
+                JOptionPane.showMessageDialog(null, "Ya existe un elemento registrado con ese nombre, prueba con otro, o intenta actualizar anterior registro!.", "Alerta", JOptionPane.WARNING_MESSAGE);
+                return 0;
+           }
+        
            String sql = "UPDATE tabla_grupos SET grupo_nombre=?,grupo_desc=? WHERE grupo_id=?";
            try{
                con = conectar.conectar();
