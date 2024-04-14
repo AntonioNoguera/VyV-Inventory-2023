@@ -274,7 +274,7 @@ public class GrupoVista extends javax.swing.JFrame {
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
         Movimientos m = new Movimientos();
-        MainDashBoard mVista = new MainDashBoard();
+        MovimientosVista mVista = new MovimientosVista();
 
         ControladorDashboard c = new ControladorDashboard(mVista);
 

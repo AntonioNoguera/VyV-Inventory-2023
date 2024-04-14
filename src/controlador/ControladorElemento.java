@@ -13,7 +13,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import modelo.Elemento;
-import modelo.ElementosDAO; 
+import modelo_dao.ElementosDAO; 
 import vistas.ElementoVista; 
 
 public class ControladorElemento implements ActionListener, KeyListener { 

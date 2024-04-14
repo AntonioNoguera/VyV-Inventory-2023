@@ -1,4 +1,7 @@
-package modelo; 
+package modelo_dao; 
+
+import modelo.Grupo;
+
 import java.sql.Connection;
 import controlador.conexion;
 import java.sql.ResultSet;

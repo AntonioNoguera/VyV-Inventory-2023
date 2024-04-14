@@ -4,10 +4,13 @@
  */
 package controlador;
 
+import modelo_dao.DashboardDAO;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
 import java.security.Timestamp;
 import java.util.List;
 import javax.swing.JComboBox;
@@ -15,10 +18,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
-import modelo.DashboardDAO;
+import javax.swing.table.DefaultTableModel; 
 import modelo.Movimientos;
-import vistas.MainDashBoard;
+import vistas.MovimientosVista;
 
 /**
  *
@@ -27,10 +29,10 @@ import vistas.MainDashBoard;
 public class ControladorDashboard implements ActionListener, KeyListener {  
     DashboardDAO dao = new DashboardDAO();
     Movimientos e = new Movimientos();
-    MainDashBoard dVista = new MainDashBoard();
+    MovimientosVista dVista = new MovimientosVista();
     DefaultTableModel modelo = new DefaultTableModel(); 
     
-    public ControladorDashboard(MainDashBoard v){
+    public ControladorDashboard(MovimientosVista v){
         this.dVista=v;  
         this.dVista.btnGuardar.addActionListener(this);
         this.dVista.jButton1.addActionListener(this);

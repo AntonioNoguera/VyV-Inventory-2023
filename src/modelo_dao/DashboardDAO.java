@@ -1,6 +1,9 @@
-package modelo;
+package modelo_dao;
 
 import controlador.conexion;
+
+import modelo.Movimientos;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

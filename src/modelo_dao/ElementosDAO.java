@@ -1,4 +1,6 @@
-package modelo;
+package modelo_dao;
+
+import modelo.Elemento;
 
 import controlador.conexion;
 import java.sql.Connection;
@@ -275,7 +277,6 @@ public class ElementosDAO {
             System.out.println("ERROR ELEMENTO"+e); 
         }
     }
-    
            
     public List elementos(){ 
        String sqlSelect = "select grupo_nombre from tabla_grupos";
@@ -296,5 +297,5 @@ public class ElementosDAO {
        
        return(elementosCombo);
     }
-    
+   
 }

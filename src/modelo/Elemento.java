@@ -10,8 +10,7 @@ public class Elemento {
     private String Grupo_Name;
     private Integer Grupo_ID;
 
-    public Elemento() {
-    }
+    public Elemento() { }
 
     public Elemento(Integer Elemento_ID, String Elemento_Nombre, String Elemento_Desc, Float Elemento_Cant, String Elemento_Unidad, String Grupo_Name) {
         this.Elemento_ID = Elemento_ID;

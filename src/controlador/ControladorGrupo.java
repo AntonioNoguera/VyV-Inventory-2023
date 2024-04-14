@@ -12,7 +12,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import modelo.Grupo;
-import modelo.GrupoDAO;
+import modelo_dao.GrupoDAO;
 import vistas.GrupoVista;
 
 public class ControladorGrupo implements ActionListener, KeyListener { 
