@@ -36,6 +36,7 @@ public class ControladorDashboard implements ActionListener, KeyListener {
         this.dVista=v;  
         this.dVista.btnGuardar.addActionListener(this);
         this.dVista.jButton1.addActionListener(this);
+        
         this.dVista.MovimientosTabla.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
             @Override
             public void valueChanged(ListSelectionEvent e) {

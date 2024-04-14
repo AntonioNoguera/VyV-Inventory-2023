@@ -23,7 +23,6 @@ public class ControladorLogin implements ActionListener, KeyListener {
     UsuarioDAO daoInstance = new UsuarioDAO();
     LoginVista uVista = new LoginVista();
     
-    
     public ControladorLogin(LoginVista v){
         this.uVista = v; 
         
@@ -33,13 +32,15 @@ public class ControladorLogin implements ActionListener, KeyListener {
         this.uVista.btnRegistrarVolver.addActionListener(this);
     }
     
-    
     @Override
     public void actionPerformed(ActionEvent e) {
         
         //Login Related
         if(e.getSource() == uVista.btnIniciarSesion){
             // TODO add your handling code here: 
+            
+            //intentoLogin();
+            
             MovimientosVista mVista = new MovimientosVista(); 
 
             mVista.setVisible(true);
@@ -55,6 +56,8 @@ public class ControladorLogin implements ActionListener, KeyListener {
         
         //Register Related
         if(e.getSource() == uVista.btnRegistrarContinuar){
+            //intentoRegistro();
+            
             MovimientosVista mVista = new MovimientosVista(); 
 
             mVista.setVisible(true);
@@ -158,7 +161,6 @@ public class ControladorLogin implements ActionListener, KeyListener {
     }
     
     private boolean registerEmpty(){
-        
         if(getLogupUser().isEmpty()){
             return false;
         }
@@ -181,7 +183,6 @@ public class ControladorLogin implements ActionListener, KeyListener {
         
         return true;
     }
-    
     
     //UnusedMethods
     @Override

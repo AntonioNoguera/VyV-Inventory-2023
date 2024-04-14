@@ -29,10 +29,9 @@ public class UsuarioDAO {
         return allUsersArray;
     }
     
-    public List Agregar(Usuario user){
-        List<String> elementosCombo = new ArrayList<>();
+    public Boolean Agregar(Usuario user){
          
-        return elementosCombo;
+        return true;
     }
     
     public List Eliminar(){
@@ -42,8 +41,19 @@ public class UsuarioDAO {
     }
     
     public Boolean SetPermisos(){
-        
         return true;
+    }
+    
+    public Boolean userExist(Usuario user){
+        return false;
+    }
+    
+    public Usuario getFullUser(Usuario user){
+        return new Usuario(); 
+    }
+    
+    public Boolean passwordMatches(Usuario user){
+        return false; 
     }
      
 }

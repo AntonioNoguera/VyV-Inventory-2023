@@ -3,6 +3,7 @@ package vistas;
 import controlador.ControladorDashboard;
 import controlador.ControladorElemento;
 import controlador.ControladorGrupo; 
+import controlador.ControladorUsuarios;
 import modelo.Grupo;
 import modelo.Movimientos; 
 
@@ -22,6 +23,7 @@ public class MovimientosVista extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnGrupos = new javax.swing.JButton();
         btnElementos = new javax.swing.JButton();
+        btnUsuario = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         MovimientosTabla = new javax.swing.JTable();
@@ -60,20 +62,30 @@ public class MovimientosVista extends javax.swing.JFrame {
             }
         });
 
+        btnUsuario.setText("Usuarios");
+        btnUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsuarioActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(btnElementos, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
             .addComponent(btnGrupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addContainerGap()
                 .addComponent(btnElementos)
                 .addGap(18, 18, 18)
                 .addComponent(btnGrupos)
+                .addGap(18, 18, 18)
+                .addComponent(btnUsuario)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -98,14 +110,6 @@ public class MovimientosVista extends javax.swing.JFrame {
         });
         MovimientosTabla.setRowHeight(25);
         jScrollPane1.setViewportView(MovimientosTabla);
-        if (MovimientosTabla.getColumnModel().getColumnCount() > 0) {
-            MovimientosTabla.getColumnModel().getColumn(0).setResizable(false);
-            MovimientosTabla.getColumnModel().getColumn(0).setPreferredWidth(5);
-            MovimientosTabla.getColumnModel().getColumn(1).setResizable(false);
-            MovimientosTabla.getColumnModel().getColumn(2).setResizable(false);
-            MovimientosTabla.getColumnModel().getColumn(3).setResizable(false);
-            MovimientosTabla.getColumnModel().getColumn(4).setResizable(false);
-        }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -229,10 +233,10 @@ public class MovimientosVista extends javax.swing.JFrame {
                 .addComponent(btnGuardar)
                 .addGap(18, 18, 18)
                 .addComponent(btnActualizar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEliminar)
-                    .addComponent(jButton1))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1)
+                    .addComponent(btnEliminar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -309,6 +313,18 @@ public class MovimientosVista extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    private void btnUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuarioActionPerformed
+        // TODO add your handling code here: 
+        UsuariosVista uVista = new UsuariosVista(); 
+        
+        ControladorUsuarios c = new ControladorUsuarios(uVista);
+        c.test();
+        uVista.setVisible(true);
+        uVista.setLocationRelativeTo(null); 
+        this.setVisible(false);
+        this.dispose();
+    }//GEN-LAST:event_btnUsuarioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -335,6 +351,7 @@ public class MovimientosVista extends javax.swing.JFrame {
     public javax.swing.JButton btnEliminar;
     public javax.swing.JButton btnGrupos;
     public javax.swing.JButton btnGuardar;
+    public javax.swing.JButton btnUsuario;
     public javax.swing.JComboBox<String> comboElemento;
     public javax.swing.JComboBox<String> comboEntrada;
     public javax.swing.JButton jButton1;
