@@ -26,12 +26,11 @@ public class UsuarioDAO {
     ResultSet rsB;
     
     
-
     //Consultas requeridas
     public String getUser = "SELECT * FROM tabla_usuarios WHERE usuario_activado = ?";
     public String newUser = "INSERT INTO tabla_usuarios(usuario_nombre, usuario_completo, usuario_password, usuario_telefono, usuario_salt) VALUES (?,?,?,?,?)";
     public String setUser = "UPDATE tabla_usuarios SET usuario_activado WHERE usuario_id = ?";
-    public String deleteUser = "DELETE FROM tabla_usuarios WHERE usuario_id = ?";
+    public String deleteUser = "DELETE FROM tabla_usuarios WHERE usuario_nombre = ?";
 
     public String MovementsByUser = "SELECT * FROM tabla_movimientos where usuario_id = ?";
 
@@ -40,7 +39,7 @@ public class UsuarioDAO {
 
     public String userExist = "SELECT COUNT(*) FROM tabla_usuarios WHERE usuario_nombre = ?";
     
-    public String setPermissions = "UPDATE tabla_usuarios SET usuario_permisos = ? , usuario_activado = ? WHERE usuario_id = ?";
+    public String setPermissions = "UPDATE tabla_usuarios SET usuario_permisos = ? , usuario_activado = ? WHERE usuario_nombre = ?";
     
     PasswordUtils utilsPassword = new PasswordUtils();
 
@@ -60,8 +59,8 @@ public class UsuarioDAO {
                 user.setUsuario_ID(rs.getInt(1));
                 user.setUsuario_Nombre(rs.getString(2));
                 user.setUsuario_Completo(rs.getString(3));
-                user.setUsuario_Telefono(rs.getString(4));
-                user.setUsuario_Permisos(rs.getString(5));
+                user.setUsuario_Telefono(rs.getString(5));
+                user.setUsuario_Permisos(rs.getString(7));
                 
                 allUsersArray.add(user);
             }
@@ -73,12 +72,22 @@ public class UsuarioDAO {
         return allUsersArray;
     }
 
-    public List Eliminar() {
-        List<String> elementosCombo = new ArrayList<>();
-        return elementosCombo;
+    public void Eliminar(String user) {
+        //Pending  
+        
+        try{
+           con = conectar.conectar();
+           ps = con.prepareStatement(deleteUser);
+
+           ps.setString(1, user); 
+           ps.executeQuery();  
+            
+        }catch(SQLException e){
+            System.out.println("Error"+e); 
+        }  
     }
 
-    public Boolean SetPermisos(Usuario user, String permiso) {
+    public Boolean SetPermisos(String user, String permiso) {
         //"UPDATE tabla_usuarios SET usuario_permisos = ? , usuario_activado = ? WHERE usuario_id = ?";
 
         try{
@@ -87,7 +96,7 @@ public class UsuarioDAO {
             
             ps.setString(1, permiso);
             ps.setInt(2, 1);
-            ps.setInt(3, user.getUsuario_ID());
+            ps.setString(3, user);
             
             ps.executeUpdate(); 
             return true;

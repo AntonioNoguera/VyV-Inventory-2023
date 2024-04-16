@@ -327,7 +327,9 @@ public class MovimientosVista extends javax.swing.JFrame {
         this.dispose();
         
         try { 
-            c.listar(uVista.TablaSolicitudes);
+            c.startButtons();
+            c.listarPendientes(uVista.TablaSolicitudes,0);
+            c.listarActivos(uVista.TablaUsuarios,1);
         } catch (SQLException ex) {
             System.out.println("MISTAKE");
             Logger.getLogger(UsuariosVista.class.getName()).log(Level.SEVERE, null, ex);
