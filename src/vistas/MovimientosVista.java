@@ -4,14 +4,16 @@ import controlador.ControladorMovimientos;
 import controlador.ControladorElemento;
 import controlador.ControladorGrupo; 
 import controlador.ControladorUsuarios;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.Grupo;
 import modelo.Movimientos; 
 
 public class MovimientosVista extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainDashBoard
-     */
+    /** Creates new form MainDashBoard **/
+    
     public MovimientosVista() {
         initComponents();
     }
@@ -274,14 +276,15 @@ public class MovimientosVista extends javax.swing.JFrame {
 
     private void btnElementosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElementosActionPerformed
         // TODO add your handling code here: 
-            ElementoVista eVista = new ElementoVista(); 
+        ElementoVista eVista = new ElementoVista(); 
 
-            ControladorElemento c = new ControladorElemento(eVista); 
+        ControladorElemento c = new ControladorElemento(eVista); 
 
-            eVista.setVisible(true);
-            c.arrayMembers();
-            eVista.setLocationRelativeTo(null);
-            c.listar(eVista.ElementosTabla); 
+        eVista.setVisible(true);
+        c.arrayMembers();
+        eVista.setLocationRelativeTo(null);
+        c.listar(eVista.ElementosTabla);
+        
         this.setVisible(false);
         this.dispose();
     }//GEN-LAST:event_btnElementosActionPerformed
@@ -317,12 +320,18 @@ public class MovimientosVista extends javax.swing.JFrame {
         // TODO add your handling code here: 
         UsuariosVista uVista = new UsuariosVista(); 
         
-        ControladorUsuarios c = new ControladorUsuarios(uVista);
-        c.test();
+        ControladorUsuarios c = new ControladorUsuarios(uVista); 
         uVista.setVisible(true);
         uVista.setLocationRelativeTo(null); 
         this.setVisible(false);
         this.dispose();
+        
+        try { 
+            c.listar(uVista.TablaSolicitudes);
+        } catch (SQLException ex) {
+            System.out.println("MISTAKE");
+            Logger.getLogger(UsuariosVista.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnUsuarioActionPerformed
 
     /**

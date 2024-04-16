@@ -1,5 +1,6 @@
 package modelo_dao;
 
+import Utils.PasswordUtils;
 import modelo.Usuario;
 
 import controlador.conexion;
@@ -23,10 +24,12 @@ public class UsuarioDAO {
 
     ResultSet rs;
     ResultSet rsB;
+    
+    
 
     //Consultas requeridas
     public String getUser = "SELECT * FROM tabla_usuarios WHERE usuario_activado = ?";
-    public String newUser = "INSERT INTO tabla_usuarios(usuario_nombre, usuario_completo, usuario_password, usuario_telefono) VALUES (?,?,?,?)";
+    public String newUser = "INSERT INTO tabla_usuarios(usuario_nombre, usuario_completo, usuario_password, usuario_telefono, usuario_salt) VALUES (?,?,?,?,?)";
     public String setUser = "UPDATE tabla_usuarios SET usuario_activado WHERE usuario_id = ?";
     public String deleteUser = "DELETE FROM tabla_usuarios WHERE usuario_id = ?";
 
@@ -36,19 +39,37 @@ public class UsuarioDAO {
     public String getUserInfo = "SELECT * FROM tabla_usuarios WHERE usuario_nombre = ?";
 
     public String userExist = "SELECT COUNT(*) FROM tabla_usuarios WHERE usuario_nombre = ?";
+    
+    public String setPermissions = "UPDATE tabla_usuarios SET usuario_permisos = ? , usuario_activado = ? WHERE usuario_id = ?";
+    
+    PasswordUtils utilsPassword = new PasswordUtils();
 
-    public Boolean tryLogin(Usuario user) {
-
-        return true;
-    }
-
-    public List getActiveUsers() {
-        List<String> allUsersArray = new ArrayList<>();
-        return allUsersArray;
-    }
-
-    public List getPendingUsers() {
-        List<String> allUsersArray = new ArrayList<>();
+    public List getUsers(int userState) throws SQLException {
+        List<Usuario> allUsersArray = new ArrayList<>();
+        
+        con = conectar.conectar();
+        ps = con.prepareStatement(getUser);
+        ps.setInt(1, userState); 
+        
+        try{
+            rs = ps.executeQuery();
+        
+            while(rs.next()){
+                Usuario user = new Usuario();
+                
+                user.setUsuario_ID(rs.getInt(1));
+                user.setUsuario_Nombre(rs.getString(2));
+                user.setUsuario_Completo(rs.getString(3));
+                user.setUsuario_Telefono(rs.getString(4));
+                user.setUsuario_Permisos(rs.getString(5));
+                
+                allUsersArray.add(user);
+            }
+            
+        }catch(Exception e){
+            System.out.println("No se ejecuto el listado bien");
+        }
+        
         return allUsersArray;
     }
 
@@ -57,12 +78,55 @@ public class UsuarioDAO {
         return elementosCombo;
     }
 
-    public Boolean SetPermisos() {
-        return true;
+    public Boolean SetPermisos(Usuario user, String permiso) {
+        //"UPDATE tabla_usuarios SET usuario_permisos = ? , usuario_activado = ? WHERE usuario_id = ?";
+
+        try{
+            con = conectar.conectar();
+            ps = con.prepareStatement(setPermissions);
+            
+            ps.setString(1, permiso);
+            ps.setInt(2, 1);
+            ps.setInt(3, user.getUsuario_ID());
+            
+            ps.executeUpdate(); 
+            return true;
+            
+        }catch(SQLException e){
+            System.out.println("Error"+e); 
+        }
+        
+        return false;
     }
 
-    public Boolean Agregar(Usuario user) {
-        return true;
+    public Boolean addUser(Usuario user) throws Exception {
+        //   (usuario_nombre, usuario_completo, usuario_password, usuario_telefono, usuario_salt) VALUES (?,?,?,?,?)";
+
+        
+           try{
+               con = conectar.conectar();
+               ps=con.prepareStatement(newUser);
+               
+               ps.setString(1, user.getUsuario_Nombre());
+               ps.setString(2, user.getUsuario_Completo());
+               
+               //Pending to hash!!
+               String generatedSalt = utilsPassword.generateSalt();
+               String generatedHash = utilsPassword.hashPassword(user.getUsuario_Password(), generatedSalt);
+              
+               ps.setString(5, generatedSalt);
+               ps.setString(3, generatedHash);
+               
+               ps.setString(4, user.getUsuario_Telefono());
+               
+               ps.executeUpdate();
+               
+               return true;
+           }catch(SQLException e){
+               System.out.println("Error"+e); 
+           }
+        
+         return false;
     }
 
     public Boolean userExist(Usuario user) {
@@ -116,9 +180,5 @@ public class UsuarioDAO {
         }
 
         return new Usuario();
-    }
-
-    public Boolean passwordMatches(Usuario user) {
-        return false;
     }
 }

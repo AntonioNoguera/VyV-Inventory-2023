@@ -3,8 +3,7 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.Arrays;
+import java.awt.event.KeyListener; 
 import java.util.List; 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -55,8 +54,6 @@ public class ControladorGrupo implements ActionListener, KeyListener {
             }
         });
         
-        
-        //EstadoBaseBotones
         buttonBaseState();
     }
     
@@ -82,8 +79,10 @@ public class ControladorGrupo implements ActionListener, KeyListener {
     public void listar(JTable tabla){ 
         modelo=(DefaultTableModel)tabla.getModel();
         modelo.setRowCount(0);
+        
         List<Grupo> lista=dao.listar();
         Object[] object = new Object[3]; 
+        
         for(int i=0;i<lista.size();i++){
             object[0] = lista.get(i).getGrupo_ID();
             object[1] = lista.get(i).getGrupo_Nombre();
@@ -120,7 +119,8 @@ public class ControladorGrupo implements ActionListener, KeyListener {
     }
     
     public void eliminar(){
-        Grupo g = new Grupo(); 
+        
+        Grupo g = new Grupo();
         
         String id = gVista.txtGroupID.getText();
         
@@ -147,9 +147,11 @@ public class ControladorGrupo implements ActionListener, KeyListener {
         
         listar(gVista.tablaGrupo);
         buttonBaseState();
+        
     }
     
     public void actualizar(){
+        
         Grupo g = new Grupo();
         String id = gVista.txtGroupID.getText();
         String nombre = gVista.txtGrupoNombre.getText();
@@ -164,7 +166,7 @@ public class ControladorGrupo implements ActionListener, KeyListener {
         g.setGrupo_Desc(descripcion);
         
         int result = dao.Actualizar(g);
-        if(result==1){
+        if(result == 1){
             System.out.println("Ingresado con éxito");
             gVista.txtGrupoNombre.setText(" ");
             gVista.txtGrupoDesc.setText(" ");
@@ -172,9 +174,10 @@ public class ControladorGrupo implements ActionListener, KeyListener {
         }else{
             System.out.println("ERROR");
         }
-            
+        
         listar(gVista.tablaGrupo);
         buttonBaseState();
+        
     }
     
     boolean inputValidation(String Name, String Description){

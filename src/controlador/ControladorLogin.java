@@ -56,14 +56,11 @@ public class ControladorLogin implements ActionListener, KeyListener {
         
         //Register Related
         if(e.getSource() == uVista.btnRegistrarContinuar){
-            //intentoRegistro();
-            
-            MovimientosVista mVista = new MovimientosVista(); 
-
-            mVista.setVisible(true);
-            mVista.setLocationRelativeTo(null); 
-            uVista.setVisible(false);
-            uVista.dispose();
+            try {
+                intentoRegistro();
+            } catch (Exception ex) {
+                Logger.getLogger(ControladorLogin.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
         if(e.getSource() == uVista.btnRegistrarVolver){
@@ -90,49 +87,50 @@ public class ControladorLogin implements ActionListener, KeyListener {
 
                     mVista.setVisible(true);
                     mVista.setLocationRelativeTo(null); 
-                    uVista.setVisible(false);
-                    uVista.dispose();
+                    this.uVista.setVisible(false);
+                    this.uVista.dispose();
                 }else{
                     System.out.println("It doesnt matches");
                 }
             }else{
                 System.out.println("El usuario no existe");
             }
-            //daoInstance.newUser(user);
-            
-            /*
-            if(daoInstance.userExist(user)){
-                if(daoInstance.passwordMatches(user)){
-                    Usuario dbUser = daoInstance.getFullUser(user);
-                    //Full logged
-                    
-                }
-            }
-*/
-        
         }
         
         return 0;
     }
     
-    private Integer intentoRegistro(){
+    private Integer intentoRegistro() throws Exception{
         
         if(registerEmpty()){
-            Usuario user = new Usuario(
-                                        getLogupUser(),
+            Usuario user = new Usuario( getLogupUser(),
                                         getLogupName(),
                                         getLogupPass(),
                                         getLogupPhone()
-                                    );
+                                        );
             
-            //Verify matching password a and b
-            
-            if(!daoInstance.userExist(user)){ 
-                daoInstance.Agregar(user);
+            //Verify matching password a and b 
+            if(!daoInstance.userExist(user)){
+                if( getLogupPass().equals(getLogupPassb()) ) {
+                    if(daoInstance.addUser(user)){
+                        System.out.println("Login");
+                        
+                        MovimientosVista mVista = new MovimientosVista(); 
+
+                        mVista.setVisible(true);
+                        mVista.setLocationRelativeTo(null); 
+                        this.uVista.setVisible(false);
+                        this.uVista.dispose();
+                    }else{
+                        System.out.println("Something went wrong!");
+                    }
+                } else {
+                    System.out.println(" Password Wont Match! ");
+                }
+                daoInstance.addUser(user);
             }
-        
         }
-         
+        
         return 1;
     }
     
