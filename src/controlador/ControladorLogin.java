@@ -4,10 +4,13 @@
  */
 package controlador;
 
+import Utils.PasswordUtils;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import modelo_dao.UsuarioDAO;
 import modelo.Usuario;
@@ -37,16 +40,13 @@ public class ControladorLogin implements ActionListener, KeyListener {
         
         //Login Related
         if(e.getSource() == uVista.btnIniciarSesion){
-            // TODO add your handling code here: 
-            
-            //intentoLogin();
-            
-            MovimientosVista mVista = new MovimientosVista(); 
-
-            mVista.setVisible(true);
-            mVista.setLocationRelativeTo(null); 
-            uVista.setVisible(false);
-            uVista.dispose();
+            try {
+                // TODO add your handling code here:
+                
+                intentoLogin(); 
+            } catch (Exception ex) {
+                Logger.getLogger(ControladorLogin.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
         if(e.getSource() == uVista.btnNuevoUsuario){
@@ -73,23 +73,42 @@ public class ControladorLogin implements ActionListener, KeyListener {
            
     }
     
-    private Integer intentoLogin(){
+    private Integer intentoLogin() throws Exception{
+        PasswordUtils utils = new PasswordUtils();
         
         if(loginEmpty()){
             Usuario user = new Usuario(getLoginUser(),getLoginPass());
             
             if(daoInstance.userExist(user)){
-                if(daoInstance.passwordMatches(user)){
-                    Usuario dbUser = daoInstance.getFullUser(user);
-                    //Full logged
+                Usuario userB = daoInstance.getFullUser(user);
+                System.out.println(userB.getUsuario_Salt());
+                    
+                    if(utils.hashPassword(user.getUsuario_Password(), userB.getUsuario_Salt()).equals(userB.getUsuario_Password())){
+                        
+                    
                     MovimientosVista mVista = new MovimientosVista(); 
 
                     mVista.setVisible(true);
                     mVista.setLocationRelativeTo(null); 
                     uVista.setVisible(false);
                     uVista.dispose();
+                }else{
+                    System.out.println("It doesnt matches");
+                }
+            }else{
+                System.out.println("El usuario no existe");
+            }
+            //daoInstance.newUser(user);
+            
+            /*
+            if(daoInstance.userExist(user)){
+                if(daoInstance.passwordMatches(user)){
+                    Usuario dbUser = daoInstance.getFullUser(user);
+                    //Full logged
+                    
                 }
             }
+*/
         
         }
         

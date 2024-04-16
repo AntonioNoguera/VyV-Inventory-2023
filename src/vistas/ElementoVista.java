@@ -4,7 +4,7 @@
  */
 package vistas;
 
-import controlador.ControladorDashboard;
+import controlador.ControladorMovimientos;
 import controlador.ControladorElemento;
 import modelo.Elemento;
 import modelo.Movimientos;
@@ -285,7 +285,7 @@ public class ElementoVista extends javax.swing.JFrame {
         Movimientos m = new Movimientos();
         MovimientosVista mVista = new MovimientosVista();
 
-        ControladorDashboard c = new ControladorDashboard(mVista);
+        ControladorMovimientos c = new ControladorMovimientos(mVista);
         c.arrayMembers();
         mVista.setVisible(true);
         mVista.setLocationRelativeTo(null);

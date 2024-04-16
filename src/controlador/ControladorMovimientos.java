@@ -4,7 +4,7 @@
  */
 package controlador;
 
-import modelo_dao.DashboardDAO;
+import modelo_dao.MovimientosDAO;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,13 +26,13 @@ import vistas.MovimientosVista;
  *
  * @author Antonio Noguera
  */
-public class ControladorDashboard implements ActionListener, KeyListener {  
-    DashboardDAO dao = new DashboardDAO();
+public class ControladorMovimientos implements ActionListener, KeyListener {  
+    MovimientosDAO dao = new MovimientosDAO();
     Movimientos e = new Movimientos();
     MovimientosVista dVista = new MovimientosVista();
     DefaultTableModel modelo = new DefaultTableModel(); 
     
-    public ControladorDashboard(MovimientosVista v){
+    public ControladorMovimientos(MovimientosVista v){
         this.dVista=v;  
         this.dVista.btnGuardar.addActionListener(this);
         this.dVista.jButton1.addActionListener(this);

@@ -13,6 +13,7 @@ public class Usuario {
     private Boolean Usuario_Activado;
     private String Usuario_Permisos;
     private Boolean Usuario_Value;
+    private String Usuario_Salt;
     
     public Usuario(){ }
     
@@ -96,4 +97,14 @@ public class Usuario {
     public void setUsuario_Value(Boolean Usuario_Value) {
         this.Usuario_Value = Usuario_Value;
     }
+
+    public String getUsuario_Salt() {
+        return Usuario_Salt;
+    }
+
+    public void setUsuario_Salt(String Usuario_Salt) {
+        this.Usuario_Salt = Usuario_Salt;
+    }
+    
+    
 }

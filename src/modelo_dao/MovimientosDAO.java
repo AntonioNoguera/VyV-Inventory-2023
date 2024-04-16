@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List; 
 import javax.swing.JOptionPane;
 
-public class DashboardDAO {
+public class MovimientosDAO {
     conexion conectar = new conexion();
     Connection con;
     

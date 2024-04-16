@@ -4,7 +4,7 @@
  */
 package vistas;
 
-import controlador.ControladorDashboard;
+import controlador.ControladorMovimientos;
 import controlador.ControladorGrupo;
 import modelo.Grupo;
 import modelo.Movimientos;
@@ -276,7 +276,7 @@ public class GrupoVista extends javax.swing.JFrame {
         Movimientos m = new Movimientos();
         MovimientosVista mVista = new MovimientosVista();
 
-        ControladorDashboard c = new ControladorDashboard(mVista);
+        ControladorMovimientos c = new ControladorMovimientos(mVista);
 
         mVista.setVisible(true);
         mVista.setLocationRelativeTo(null);
