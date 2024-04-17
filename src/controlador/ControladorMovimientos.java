@@ -20,6 +20,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel; 
 import modelo.Movimientos;
+import modelo.Usuario;
 import vistas.MovimientosVista;
 
 /**
@@ -31,6 +32,8 @@ public class ControladorMovimientos implements ActionListener, KeyListener {
     Movimientos e = new Movimientos();
     MovimientosVista dVista = new MovimientosVista();
     DefaultTableModel modelo = new DefaultTableModel(); 
+    
+    Usuario loggedUser = new Usuario();
     
     public ControladorMovimientos(MovimientosVista v){
         this.dVista=v;  
@@ -70,7 +73,14 @@ public class ControladorMovimientos implements ActionListener, KeyListener {
         baseStateButtons();   
     }
     
-    void baseStateButtons(){
+    public void setUser(Usuario logUser){
+        this.loggedUser = logUser;
+        
+        System.out.println("Logged User" + this.loggedUser.getUsuario_Nombre().toString());
+        
+    }
+    
+    private void baseStateButtons(){
         this.dVista.btnGuardar.setEnabled(false);
         this.dVista.btnEliminar.setEnabled(false);
         this.dVista.jButton1.setEnabled(false);
@@ -83,7 +93,7 @@ public class ControladorMovimientos implements ActionListener, KeyListener {
         modelo=(DefaultTableModel)tabla.getModel();
         modelo.setRowCount(0);
         List<Movimientos> lista=dao.listar();
-        Object[] object = new Object[6]; 
+        Object[] object = new Object[7]; 
         for(int i=lista.size()-1;i>-1;i--){
             object[0] = lista.get(i).getMovimiento_ID();
             object[1] = lista.get(i).getElementoNombre();
@@ -91,6 +101,7 @@ public class ControladorMovimientos implements ActionListener, KeyListener {
              
             object[3] = lista.get(i).getMovimiento_Tipo();
             object[4] = lista.get(i).getMovimiento_Tiempo();
+            object[5] = lista.get(i).getUsuario_ID();
             modelo.addRow(object); 
         }
         dVista.MovimientosTabla.setModel(modelo);
@@ -99,7 +110,7 @@ public class ControladorMovimientos implements ActionListener, KeyListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==dVista.btnGuardar){
-            agregar();
+            agregar(loggedUser.getUsuario_ID());
         }
         
         if(e.getSource()==dVista.btnEliminar){
@@ -127,6 +138,8 @@ public class ControladorMovimientos implements ActionListener, KeyListener {
         }
         listar(dVista.MovimientosTabla);
     }
+    
+    
 
     public void actualizar(){
         String tipoMov = (String) dVista.comboEntrada.getSelectedItem();
@@ -153,7 +166,7 @@ public class ControladorMovimientos implements ActionListener, KeyListener {
         baseStateButtons();
     }
     
-    public void agregar(){
+    public void agregar(Integer actualUser){
         Movimientos m = new Movimientos();
         System.out.println("CONTROLLER");
         String tipoMov = (String) dVista.comboEntrada.getSelectedItem();
@@ -165,7 +178,7 @@ public class ControladorMovimientos implements ActionListener, KeyListener {
         
         Float cantidad = Float.valueOf(dVista.txtCantidad.getText());
         
-        int result = dao.Agregar(new Movimientos(tipoMov, elementoNombre,cantidad));
+        int result = dao.Agregar(new Movimientos(tipoMov, elementoNombre,cantidad), actualUser);
         if(result==1){
             ClearALL();
             

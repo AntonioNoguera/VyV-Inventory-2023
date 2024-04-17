@@ -95,15 +95,15 @@ public class MovimientosVista extends javax.swing.JFrame {
 
         MovimientosTabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nombre", "Cantidad", "Entrada/Salida", "Fecha y Hora"
+                "ID", "Nombre", "Cantidad", "Entrada/Salida", "Fecha y Hora", "Responsable"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

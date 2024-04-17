@@ -24,7 +24,6 @@ public class saltTest {
             Logger.getLogger(saltTest.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        
         if(test.hashPassword(password, salt).equals(hashpassword)){
             System.out.println("LocalEncryptation was done trought SHA-256");
             

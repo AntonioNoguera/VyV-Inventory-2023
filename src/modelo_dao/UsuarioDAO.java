@@ -115,10 +115,8 @@ public class UsuarioDAO {
         return false;
     }
 
-    public Boolean addUser(Usuario user) throws Exception {
-        //   (usuario_nombre, usuario_completo, usuario_password, usuario_telefono, usuario_salt) VALUES (?,?,?,?,?)";
-
-        
+    public Usuario addUser(Usuario user) throws Exception {
+        //   (usuario_nombre, usuario_completo, usuario_password, usuario_telefono, usuario_salt) VALUES (?,?,?,?,?)"; 
            try{
                con = conectar.conectar();
                ps=con.prepareStatement(newUser);
@@ -137,12 +135,14 @@ public class UsuarioDAO {
                
                ps.executeUpdate();
                
-               return true;
+               user.setUsuario_Password("");
+               
+               return user;
            }catch(SQLException e){
                System.out.println("Error"+e); 
            }
         
-         return false;
+         return new Usuario();
     }
 
     public Boolean userExist(Usuario user) {

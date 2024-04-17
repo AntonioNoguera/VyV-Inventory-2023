@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package controlador;
 
 import Utils.PasswordUtils;
@@ -82,13 +78,8 @@ public class ControladorLogin implements ActionListener, KeyListener {
                     
                     if(utils.hashPassword(user.getUsuario_Password(), userB.getUsuario_Salt()).equals(userB.getUsuario_Password())){
                         
+                        launchMovementView(userB);
                     
-                    MovimientosVista mVista = new MovimientosVista(); 
-
-                    mVista.setVisible(true);
-                    mVista.setLocationRelativeTo(null); 
-                    this.uVista.setVisible(false);
-                    this.uVista.dispose();
                 }else{
                     System.out.println("It doesnt matches");
                 }
@@ -112,15 +103,10 @@ public class ControladorLogin implements ActionListener, KeyListener {
             //Verify matching password a and b 
             if(!daoInstance.userExist(user)){
                 if( getLogupPass().equals(getLogupPassb()) ) {
-                    if(daoInstance.addUser(user)){
-                        System.out.println("Login");
-                        
-                        MovimientosVista mVista = new MovimientosVista(); 
-
-                        mVista.setVisible(true);
-                        mVista.setLocationRelativeTo(null); 
-                        this.uVista.setVisible(false);
-                        this.uVista.dispose();
+                    Usuario readedUser = daoInstance.addUser(user);
+                    
+                    if(readedUser.equals(new Usuario())){
+                        launchMovementView(readedUser);
                     }else{
                         System.out.println("Something went wrong!");
                     }
@@ -130,8 +116,20 @@ public class ControladorLogin implements ActionListener, KeyListener {
                 daoInstance.addUser(user);
             }
         }
-        
         return 1;
+    }
+    
+    private void launchMovementView(Usuario datos){
+        MovimientosVista mVista = new MovimientosVista(); 
+
+        mVista.setVisible(true);
+        mVista.setLocationRelativeTo(null); 
+        ControladorMovimientos mController = new ControladorMovimientos(mVista);
+        mController.setUser(datos);
+        mController.listar(mVista.MovimientosTabla);
+        mController.arrayMembers();
+        this.uVista.setVisible(false);
+        this.uVista.dispose();
     }
     
     //Getters from the view

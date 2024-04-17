@@ -8,6 +8,7 @@ public class Movimientos {
     private String Movimiento_Tiempo;
     
     private Integer Elemento_ID;
+    private Integer Usuario_ID;
 
     public Movimientos() {
     }
@@ -89,4 +90,14 @@ public class Movimientos {
     public void setElemento_ID(Integer Elemento_ID) {
         this.Elemento_ID = Elemento_ID;
     }   
+
+    public Integer getUsuario_ID() {
+        return Usuario_ID;
+    }
+
+    public void setUsuario_ID(Integer Usuario_ID) {
+        this.Usuario_ID = Usuario_ID;
+    }
+    
+    
 }

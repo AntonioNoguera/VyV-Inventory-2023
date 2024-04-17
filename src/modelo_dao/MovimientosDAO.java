@@ -54,6 +54,10 @@ public class MovimientosDAO {
                 e.setMovimiento_Cant(rs.getFloat(4));  
                 e.setMovimiento_Tiempo(rs.getString(5));   
                 
+                //getUsuer softInfo
+                
+                e.setUsuario_ID(rs.getInt(6));
+                
                 datos.add(e);
             } 
         }catch(SQLException e){
@@ -83,12 +87,13 @@ public class MovimientosDAO {
        return(elementosCombo);
     }
     
-     public int Agregar(Movimientos m){ 
+    //ocupa cambios
+     public int Agregar(Movimientos m,Integer userID){ 
          
            Float actualAmount = null;
            Integer elementoID = null;
            String sql0 = "SELECT elemento_cant FROM tabla_elementos WHERE elemento_nombre = ?";
-           String sql = "INSERT INTO tabla_movimientos(movimiento_tipo,elemento_id,movimiento_cant) VALUES (?,?,?)";
+           String sql = "INSERT INTO tabla_movimientos(movimiento_tipo,elemento_id,movimiento_cant,usuario_id) VALUES (?,?,?,?)";
            String sql2 = "SELECT elemento_id FROM tabla_elementos WHERE elemento_nombre = ?";
            String sql3 = "UPDATE tabla_elementos SET elemento_cant = ? WHERE elemento_id=? ";
            
@@ -140,6 +145,7 @@ public class MovimientosDAO {
                }
                
                ps.setFloat(3, m.getMovimiento_Cant());
+               ps.setInt(4, userID);
                
                ps.executeUpdate();
                
@@ -170,7 +176,7 @@ public class MovimientosDAO {
                return 0;
            }
     }
-    
+     
     public Integer Eliminar(Movimientos m){ 
         Integer elementoID = null;
         Float actualAmount = null;
@@ -280,6 +286,7 @@ public class MovimientosDAO {
         return 1;
     }
     
+    //ocupa cambios
     public int Actualizar(Movimientos m){
         String movimientoAnterior = "-";
         Float cantidadAnterior = 0.0f;
