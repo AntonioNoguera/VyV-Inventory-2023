@@ -6,8 +6,9 @@
             <file>file:/C:/Users/Michael%20Noguera/Downloads/VyV-Inventory-2023-master%20(1)/VyV-Inventory-2023/src/vistas/MovimientosVista.java</file>
             <file>file:/C:/Users/Michael%20Noguera/Downloads/VyV-Inventory-2023-master%20(1)/VyV-Inventory-2023/src/modelo_dao/UsuarioDAO.java</file>
             <file>file:/C:/Users/Michael%20Noguera/Downloads/VyV-Inventory-2023-master%20(1)/VyV-Inventory-2023/src/controlador/ControladorUsuarios.java</file>
+            <file>file:/C:/Users/Michael%20Noguera/Downloads/VyV-Inventory-2023-master%20(1)/VyV-Inventory-2023/src/controlador/ControladorMovimientos.java</file>
             <file>file:/C:/Users/Michael%20Noguera/Downloads/VyV-Inventory-2023-master%20(1)/VyV-Inventory-2023/src/vistas/UsuariosVista.java</file>
-            <file>file:/C:/Users/Michael%20Noguera/Downloads/VyV-Inventory-2023-master%20(1)/VyV-Inventory-2023/src/controlador/ControladorGrupo.java</file>
+            <file>file:/C:/Users/Michael%20Noguera/Downloads/VyV-Inventory-2023-master%20(1)/VyV-Inventory-2023/src/modelo_dao/MovimientosDAO.java</file>
         </group>
     </open-files>
 </project-private>

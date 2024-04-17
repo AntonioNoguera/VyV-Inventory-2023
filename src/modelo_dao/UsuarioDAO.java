@@ -30,7 +30,7 @@ public class UsuarioDAO {
     public String getUser = "SELECT * FROM tabla_usuarios WHERE usuario_activado = ?";
     public String newUser = "INSERT INTO tabla_usuarios(usuario_nombre, usuario_completo, usuario_password, usuario_telefono, usuario_salt) VALUES (?,?,?,?,?)";
     public String setUser = "UPDATE tabla_usuarios SET usuario_activado WHERE usuario_id = ?";
-    public String deleteUser = "DELETE FROM tabla_usuarios WHERE usuario_nombre = ?";
+    public String deleteUser = "DELETE FROM tabla_usuarios WHERE usuario_id = ?";
 
     public String MovementsByUser = "SELECT * FROM tabla_movimientos where usuario_id = ?";
 
@@ -39,7 +39,7 @@ public class UsuarioDAO {
 
     public String userExist = "SELECT COUNT(*) FROM tabla_usuarios WHERE usuario_nombre = ?";
     
-    public String setPermissions = "UPDATE tabla_usuarios SET usuario_permisos = ? , usuario_activado = ? WHERE usuario_nombre = ?";
+    public String setPermissions = "UPDATE tabla_usuarios SET usuario_permisos = ? , usuario_activado = ? WHERE usuario_id = ?";
     
     PasswordUtils utilsPassword = new PasswordUtils();
 
@@ -72,31 +72,38 @@ public class UsuarioDAO {
         return allUsersArray;
     }
 
-    public void Eliminar(String user) {
+    public void Eliminar(Integer user) {
         //Pending  
         
         try{
-           con = conectar.conectar();
-           ps = con.prepareStatement(deleteUser);
-
-           ps.setString(1, user); 
-           ps.executeQuery();  
+            con = conectar.conectar();
+            ps = con.prepareStatement(deleteUser); 
+            ps.setInt(1, user); 
             
+            if(ps.executeUpdate() != 0){
+                System.out.println("AFECTED ROWS");
+            }else{
+                System.out.println("Not any row");
+            }
+           
+           System.out.println(ps.toString()); 
         }catch(SQLException e){
             System.out.println("Error"+e); 
         }  
     }
 
-    public Boolean SetPermisos(String user, String permiso) {
+    public Boolean SetPermisos(Integer user, String permiso) {
         //"UPDATE tabla_usuarios SET usuario_permisos = ? , usuario_activado = ? WHERE usuario_id = ?";
-
+           
         try{
             con = conectar.conectar();
             ps = con.prepareStatement(setPermissions);
             
             ps.setString(1, permiso);
             ps.setInt(2, 1);
-            ps.setString(3, user);
+            ps.setInt(3, user);
+            
+            System.out.println(ps.toString());
             
             ps.executeUpdate(); 
             return true;

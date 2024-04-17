@@ -11,6 +11,8 @@ import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
@@ -31,6 +33,8 @@ public class ControladorUsuarios implements ActionListener, KeyListener {
     DefaultTableModel modelo = new DefaultTableModel(); 
     DefaultTableModel modeloB = new DefaultTableModel(); 
     UsuarioDAO daoInstance = new UsuarioDAO();
+    
+    Integer selectedID = -1;
     
     public ControladorUsuarios(UsuariosVista u){ 
         this.uVista = u;
@@ -60,6 +64,8 @@ public class ControladorUsuarios implements ActionListener, KeyListener {
                         
                         setSelecction(rowData[2].toString(), rowData[4].toString());
                         
+                        selectedID = (Integer) rowData[0];
+                        
                         pendingUsers();
                     }
                 }
@@ -82,6 +88,9 @@ public class ControladorUsuarios implements ActionListener, KeyListener {
                         
                         uVista.TablaSolicitudes.clearSelection();   
                         setSelecction(rowData[2].toString(), rowData[4].toString()); 
+                        
+                        selectedID = (Integer) rowData[0];
+                        
                         enabledUsers();
                     }
                 }
@@ -130,20 +139,24 @@ public class ControladorUsuarios implements ActionListener, KeyListener {
         
         //Nuevos
         if(e.getSource() == uVista.btnAceptarSolicitud){ 
-            daoInstance.SetPermisos(uVista.txtUsuarioSeleccionado.getText() ,uVista.comboBoxPermisos.getSelectedItem().toString());
+            daoInstance.SetPermisos(selectedID ,uVista.comboBoxPermisos.getSelectedItem().toString());
+            listarTablas();
         }
         
         if(e.getSource() == uVista.btnDenegar){ 
-            daoInstance.Eliminar(uVista.txtUsuarioSeleccionado.getText());
+            daoInstance.Eliminar(selectedID);
+            listarTablas();
         }
         
         //Existentes
         if(e.getSource() == uVista.btnEstablecerPermisos){ 
-            daoInstance.SetPermisos(uVista.txtUsuarioSeleccionado.getText() ,uVista.comboBoxPermisos.getSelectedItem().toString());
+            daoInstance.SetPermisos(selectedID ,uVista.comboBoxPermisos.getSelectedItem().toString());
+            listarTablas();
         }
         
         if(e.getSource() == uVista.btnEliminarUsuario){  
-            daoInstance.Eliminar(uVista.txtUsuarioSeleccionado.getText());
+            daoInstance.Eliminar(selectedID);
+            listarTablas();
         }
         
         if(e.getSource() == uVista.btnLimpiarCancelar){ 
@@ -166,17 +179,26 @@ public class ControladorUsuarios implements ActionListener, KeyListener {
            
     }
     
+    public void listarTablas(){
+        try {
+            listarPendientes();
+            listarActivos();
+        } catch (SQLException ex) {
+            Logger.getLogger(ControladorUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }
+    
     public void launch(){
         System.out.println("testing");
     }
     
-    public void listarPendientes(JTable tabla, int typePetittion) throws SQLException{
+    public void listarPendientes() throws SQLException{
         System.out.println("Listar lanzado");
         
-        modelo = (DefaultTableModel)tabla.getModel();
+        modelo = (DefaultTableModel)uVista.TablaSolicitudes.getModel();
         modelo.setRowCount(0);
         
-        List<Usuario> lista= daoInstance.getUsers(typePetittion);
+        List<Usuario> lista= daoInstance.getUsers(0);
         
         Object[] object = new Object[6]; 
         for(int i=0;i<lista.size();i++){
@@ -189,15 +211,15 @@ public class ControladorUsuarios implements ActionListener, KeyListener {
             modelo.addRow(object); 
         }
         
-        tabla.setModel(modelo);
+        uVista.TablaSolicitudes.setModel(modelo);
     }
     
-    public void listarActivos(JTable tabla, int typePetittion) throws SQLException{ 
+    public void listarActivos() throws SQLException{ 
         
-        modeloB = (DefaultTableModel)tabla.getModel();
+        modeloB = (DefaultTableModel)uVista.TablaUsuarios.getModel();
         modeloB.setRowCount(0);
         
-        List<Usuario> lista= daoInstance.getUsers(typePetittion);
+        List<Usuario> lista= daoInstance.getUsers(1);
         
         Object[] object = new Object[6]; 
         for(int i=0;i<lista.size();i++){
@@ -210,7 +232,7 @@ public class ControladorUsuarios implements ActionListener, KeyListener {
             modeloB.addRow(object); 
         }
         
-        tabla.setModel(modeloB);
+        uVista.TablaUsuarios.setModel(modeloB);
     }
     
     public void startButtons(){
