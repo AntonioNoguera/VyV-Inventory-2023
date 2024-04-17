@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package controlador;
 
 import modelo_dao.MovimientosDAO;
@@ -101,7 +97,7 @@ public class ControladorMovimientos implements ActionListener, KeyListener {
              
             object[3] = lista.get(i).getMovimiento_Tipo();
             object[4] = lista.get(i).getMovimiento_Tiempo();
-            object[5] = lista.get(i).getUsuario_ID();
+            object[5] = lista.get(i).getUsuario_Responsable();
             modelo.addRow(object); 
         }
         dVista.MovimientosTabla.setModel(modelo);
@@ -173,6 +169,7 @@ public class ControladorMovimientos implements ActionListener, KeyListener {
         String elementoNombre = (String) dVista.comboElemento.getSelectedItem();
         
         if(!validation(dVista.txtCantidad.getText())){
+            System.out.println("ERROR");
             return ;
         }
         
@@ -180,12 +177,13 @@ public class ControladorMovimientos implements ActionListener, KeyListener {
         
         int result = dao.Agregar(new Movimientos(tipoMov, elementoNombre,cantidad), actualUser);
         if(result==1){
+            listar(dVista.MovimientosTabla);
             ClearALL();
             
         }else{
             System.out.println("ERROR");
         }
-        listar(dVista.MovimientosTabla);
+        
         
     }
     

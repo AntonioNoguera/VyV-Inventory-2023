@@ -120,14 +120,15 @@ public class ControladorLogin implements ActionListener, KeyListener {
     }
     
     private void launchMovementView(Usuario datos){
-        MovimientosVista mVista = new MovimientosVista(); 
-
+        MovimientosVista mVista = new MovimientosVista();
         mVista.setVisible(true);
         mVista.setLocationRelativeTo(null); 
+        
         ControladorMovimientos mController = new ControladorMovimientos(mVista);
         mController.setUser(datos);
         mController.listar(mVista.MovimientosTabla);
         mController.arrayMembers();
+        
         this.uVista.setVisible(false);
         this.uVista.dispose();
     }

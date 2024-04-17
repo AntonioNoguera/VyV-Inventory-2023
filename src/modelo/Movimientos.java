@@ -9,6 +9,9 @@ public class Movimientos {
     
     private Integer Elemento_ID;
     private Integer Usuario_ID;
+    
+    private String Usuario_Responsable;
+    
 
     public Movimientos() {
     }
@@ -41,7 +44,6 @@ public class Movimientos {
     public void setElemento_Nombre(String Elemento_Nombre) {
         this.Elemento_Nombre = Elemento_Nombre;
     }
-    
     
     public Integer getMovimiento_ID() {
         return Movimiento_ID;
@@ -97,6 +99,14 @@ public class Movimientos {
 
     public void setUsuario_ID(Integer Usuario_ID) {
         this.Usuario_ID = Usuario_ID;
+    }
+
+    public String getUsuario_Responsable() {
+        return Usuario_Responsable;
+    }
+
+    public void setUsuario_Responsable(String Usuario_Responsable) {
+        this.Usuario_Responsable = Usuario_Responsable;
     }
     
     

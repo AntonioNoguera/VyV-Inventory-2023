@@ -27,37 +27,57 @@ public class MovimientosDAO {
     public List listar(){
        String sql = "select * from tabla_movimientos";
        String sqlSelect = "select elemento_nombre from tabla_elementos where elemento_id = ";
+       String userNameSelect = "SELECT usuario_completo from tabla_usuarios WHERE usuario_id = ? ";
        
        List<Movimientos> datos = new ArrayList<>();
        List<String> elementosCombo = new ArrayList<>();
        
-       try{
-           con=conectar.conectar();
-            ps=con.prepareStatement(sql);
-            rs=ps.executeQuery();
+       try {
+           con = conectar.conectar();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
             
             while(rs.next()){
                 Movimientos e = new Movimientos();
+                
                 e.setMovimiento_ID(rs.getInt(1));  
                 e.setMovimiento_Tipo(rs.getString(2));  
                 
                 try{
                     qs=con.prepareStatement(sqlSelect + rs.getInt(3));
                     rsB=qs.executeQuery();
+                    
                     while(rsB.next()){
                         e.setElementoNombre(rsB.getString(1)); 
                         elementosCombo.add(rsB.getString(1));
                     }
+                    
                 }catch(SQLException err){
                     System.out.println("ERROR SQL: "+err);
                 }
+                
                 e.setMovimiento_Cant(rs.getFloat(4));  
                 e.setMovimiento_Tiempo(rs.getString(5));   
                 
                 //getUsuer softInfo
-                
-                e.setUsuario_ID(rs.getInt(6));
-                
+                try{
+                    ws = con.prepareStatement(userNameSelect);
+                    ws.setInt(1,rs.getInt(6));
+                    System.out.println( rs.getInt(6));
+                    
+                    rsA = ws.executeQuery();
+                    System.out.println(ws.toString());
+                    
+                    if(rsA.next()){
+                        e.setUsuario_Responsable(rsA.getString(1));
+                    }else{
+                        System.out.println("Not any?");
+                    }
+                     
+                }catch(SQLException err){
+                    System.out.println("ERROR SQL: "+err);
+                }
+                System.out.println("ITERACION");
                 datos.add(e);
             } 
         }catch(SQLException e){
@@ -151,10 +171,9 @@ public class MovimientosDAO {
                
                //Impacto del Movimiento
                try{
-                   qs=con.prepareStatement(sql3); 
+                   qs=con.prepareStatement(sql3);
                    
-                   
-                   Float finalAmount=null;
+                   Float finalAmount = null;
                    
                    if("Salida".equals(m.getMovimiento_Tipo())){
                        finalAmount = actualAmount - m.getMovimiento_Cant();
@@ -165,12 +184,13 @@ public class MovimientosDAO {
                    qs.setFloat(1, finalAmount);
                    qs.setInt(2,elementoID);
                    qs.executeUpdate(); 
+                   return 1;
                }catch(SQLException e){
                 System.out.println("Error"+e);
                 return 0;
                }
                
-               return 1;
+               
            }catch(SQLException e){
                System.out.println("Error"+e);
                return 0;
@@ -240,7 +260,6 @@ public class MovimientosDAO {
             return 0;
         }
         
-        
         //Impacto!
         String sql3 = "UPDATE tabla_elementos SET elemento_cant = ? WHERE elemento_id=? ";
         Float finalAmount = null;
@@ -261,7 +280,7 @@ public class MovimientosDAO {
         
         //Impacto
         try{ 
-            ps=con.prepareStatement(sql3);
+            ps = con.prepareStatement(sql3);
             
             if("Salida".equals(m.getMovimiento_Tipo())){
                 //Se suma
@@ -286,7 +305,6 @@ public class MovimientosDAO {
         return 1;
     }
     
-    //ocupa cambios
     public int Actualizar(Movimientos m){
         String movimientoAnterior = "-";
         Float cantidadAnterior = 0.0f;
