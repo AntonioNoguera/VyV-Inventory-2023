@@ -166,6 +166,8 @@ public class ControladorUsuarios implements ActionListener, KeyListener {
 
             mVista.setVisible(true);
             mVista.setLocationRelativeTo(null); 
+            ControladorMovimientos mController = new ControladorMovimientos(mVista);
+            mController.listar(mVista.MovimientosTabla);
             
             uVista.setVisible(false);
             uVista.dispose();
