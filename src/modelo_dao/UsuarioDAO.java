@@ -28,7 +28,7 @@ public class UsuarioDAO {
     
     //Consultas requeridas
     public String getUser = "SELECT * FROM tabla_usuarios WHERE usuario_activado = ?";
-    public String newUser = "INSERT INTO tabla_usuarios(usuario_nombre, usuario_completo, usuario_password, usuario_telefono, usuario_salt) VALUES (?,?,?,?,?)";
+    public String newUser = "INSERT INTO tabla_usuarios(usuario_nombre, usuario_completo, usuario_password, usuario_telefono, usuario_salt, usuario_activado) VALUES (?,?,?,?,?,?)";
     public String setUser = "UPDATE tabla_usuarios SET usuario_activado WHERE usuario_id = ?";
     public String deleteUser = "DELETE FROM tabla_usuarios WHERE usuario_id = ?";
 
@@ -132,6 +132,7 @@ public class UsuarioDAO {
                ps.setString(3, generatedHash);
                
                ps.setString(4, user.getUsuario_Telefono());
+               ps.setInt(6, 0);
                
                ps.executeUpdate();
                

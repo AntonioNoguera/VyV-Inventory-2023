@@ -3,10 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Michael%20Noguera/Documents/NetBeansProjects/VyV-InventarioS/src/controlador/ControladorMovimientos.java</file>
-            <file>file:/C:/Users/Michael%20Noguera/Documents/NetBeansProjects/VyV-InventarioS/src/modelo/Movimientos.java</file>
-            <file>file:/C:/Users/Michael%20Noguera/Documents/NetBeansProjects/VyV-InventarioS/src/modelo_dao/MovimientosDAO.java</file>
-            <file>file:/C:/Users/Michael%20Noguera/Documents/NetBeansProjects/VyV-InventarioS/src/controlador/ControladorLogin.java</file>
+            <file>file:/C:/Users/Michael%20Noguera/Downloads/VyV-Inventory-2023-master%20(1)/VyV-Inventory-2023/src/modelo_dao/UsuarioDAO.java</file>
+            <file>file:/C:/Users/Michael%20Noguera/Downloads/VyV-Inventory-2023-master%20(1)/VyV-Inventory-2023/src/vistas/MovimientosVista.java</file>
+            <file>file:/C:/Users/Michael%20Noguera/Downloads/VyV-Inventory-2023-master%20(1)/VyV-Inventory-2023/src/vistas/LoginVista.java</file>
+            <file>file:/C:/Users/Michael%20Noguera/Downloads/VyV-Inventory-2023-master%20(1)/VyV-Inventory-2023/src/controlador/ControladorUsuarios.java</file>
+            <file>file:/C:/Users/Michael%20Noguera/Downloads/VyV-Inventory-2023-master%20(1)/VyV-Inventory-2023/src/controlador/ControladorMovimientos.java</file>
+            <file>file:/C:/Users/Michael%20Noguera/Downloads/VyV-Inventory-2023-master%20(1)/VyV-Inventory-2023/src/controlador/ControladorLogin.java</file>
         </group>
     </open-files>
 </project-private>

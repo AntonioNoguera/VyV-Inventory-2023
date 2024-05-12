@@ -73,16 +73,25 @@ public class ControladorLogin implements ActionListener, KeyListener {
             Usuario user = new Usuario(getLoginUser(),getLoginPass());
             
             if(daoInstance.userExist(user)){
-                Usuario userB = daoInstance.getFullUser(user);
-                System.out.println(userB.getUsuario_Salt());
-                    
-                    if(utils.hashPassword(user.getUsuario_Password(), userB.getUsuario_Salt()).equals(userB.getUsuario_Password())){
-                        
-                        launchMovementView(userB);
-                    
-                }else{
-                    System.out.println("It doesnt matches");
+                Usuario userB = daoInstance.getFullUser(user); 
+                if(userB.getUsuario_Activado()){
+                        if(utils.hashPassword(user.getUsuario_Password(), userB.getUsuario_Salt()).equals(userB.getUsuario_Password())){
+
+
+                        MovimientosVista mVista = new MovimientosVista(); 
+
+                        mVista.setVisible(true);
+                        mVista.setLocationRelativeTo(null); 
+                        this.uVista.setVisible(false);
+                        this.uVista.dispose();
+                    }else{
+                        System.out.println("It doesnt matches");
+                    }
+                } else {
+                    System.out.println("El usuario aun no esta aceptado por el administrador");
                 }
+                
+                
             }else{
                 System.out.println("El usuario no existe");
             }
@@ -102,14 +111,12 @@ public class ControladorLogin implements ActionListener, KeyListener {
             
             //Verify matching password a and b 
             if(!daoInstance.userExist(user)){
-                if( getLogupPass().equals(getLogupPassb()) ) {
-                    Usuario readedUser = daoInstance.addUser(user);
-                    
-                    if(readedUser.equals(new Usuario())){
-                        launchMovementView(readedUser);
-                    }else{
-                        System.out.println("Something went wrong!");
-                    }
+                if( getLogupPass().equals(getLogupPassb()) ) { 
+                        System.out.println("Login");
+                        clearRegistry();
+                        System.out.println("EL REGISTRO SE HA REALIZADO CON EXITO, ESPERA A QUE SE CONFIRME TU PETICION"); 
+                        
+                     
                 } else {
                     System.out.println(" Password Wont Match! ");
                 }
@@ -198,6 +205,17 @@ public class ControladorLogin implements ActionListener, KeyListener {
         }
         
         return true;
+    }
+    
+    private void clearRegistry(){  
+        uVista.txt_inicio_usuario.setText("");
+        uVista.txt_inicio_password.setText("");
+        uVista.txtRegistrarUsuario.setText("");
+        uVista.txtRegistrarNombreCompleto.setText("");
+        uVista.txtRegistrarPassword.setText("");
+        uVista.txtRegistrarPasswordV.setText("");
+        uVista.txtRegistrarTelefono.setText("");
+   
     }
     
     //UnusedMethods
