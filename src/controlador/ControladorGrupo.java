@@ -11,14 +11,18 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import modelo.Grupo;
+import modelo.Usuario;
 import modelo_dao.GrupoDAO;
 import vistas.GrupoVista;
+import vistas.MovimientosVista;
 
 public class ControladorGrupo implements ActionListener, KeyListener { 
     
     GrupoDAO dao = new GrupoDAO(); 
     GrupoVista gVista = new GrupoVista();
     DefaultTableModel modelo = new DefaultTableModel(); 
+    
+    Usuario actualUser = new Usuario() ;
     
     public ControladorGrupo(GrupoVista v){
         this.gVista=v;
@@ -28,6 +32,7 @@ public class ControladorGrupo implements ActionListener, KeyListener {
         this.gVista.btnActualizar.addActionListener(this); 
         this.gVista.txtGrupoDesc.addKeyListener(this);
         this.gVista.txtGrupoNombre.addKeyListener(this);
+        this.gVista.btnVolver.addActionListener(this);
         
         this.gVista.tablaGrupo.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
             @Override
@@ -71,9 +76,35 @@ public class ControladorGrupo implements ActionListener, KeyListener {
             actualizar();
         }
         
+        if(e.getSource()==gVista.btnVolver){
+            launchMovementView(this.actualUser);
+        }
+        
         if(e.getSource()==gVista.btnLimpiar){
             clearALL();
         }
+    }
+    
+    private void launchMovementView(Usuario datos){ 
+        
+        MovimientosVista mVista = new MovimientosVista();
+        mVista.setVisible(true);
+        mVista.setLocationRelativeTo(null); 
+        
+        ControladorMovimientos mController = new ControladorMovimientos(mVista);
+         
+        mController.arrayMembers();
+        mController.setUser(datos);
+        mController.listar(mVista.MovimientosTabla);
+        mController.arrayMembers();
+        
+        this.gVista.setVisible(false);
+        this.gVista.dispose();
+    }
+    
+    public void setUser(Usuario user){
+        this.actualUser = user;
+        System.out.println("Logged User" + this.actualUser.getUsuario_Nombre().toString());
     }
     
     public void listar(JTable tabla){ 

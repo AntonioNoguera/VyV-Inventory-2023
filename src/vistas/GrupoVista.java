@@ -273,17 +273,7 @@ public class GrupoVista extends javax.swing.JFrame {
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
-        Movimientos m = new Movimientos();
-        MovimientosVista mVista = new MovimientosVista();
-
-        ControladorMovimientos c = new ControladorMovimientos(mVista);
-
-        mVista.setVisible(true);
-        mVista.setLocationRelativeTo(null);
-        c.arrayMembers();
-        c.listar(mVista.MovimientosTabla);  
-        this.setVisible(false);
-        this.dispose();
+        
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed

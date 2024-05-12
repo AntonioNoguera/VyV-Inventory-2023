@@ -30,6 +30,8 @@ public class ControladorUsuarios implements ActionListener, KeyListener {
     DefaultTableModel modeloB = new DefaultTableModel(); 
     UsuarioDAO daoInstance = new UsuarioDAO();
     
+    Usuario actualUser = new Usuario() ;
+    
     Integer selectedID = -1;
     
     public ControladorUsuarios(UsuariosVista u){ 
@@ -56,13 +58,22 @@ public class ControladorUsuarios implements ActionListener, KeyListener {
                         for (int i = 0; i < modelo.getColumnCount(); i++) {
                             rowData[i] = modelo.getValueAt(selectedRow, i);
                         }
-                        uVista.TablaUsuarios.clearSelection(); 
                         
-                        setSelecction(rowData[2].toString(), rowData[4].toString());
-                        
-                        selectedID = (Integer) rowData[0];
-                        
-                        pendingUsers();
+                        if(! actualUser.getUsuario_Nombre().equals(String.valueOf(rowData[1]))){
+                            
+                            uVista.TablaUsuarios.clearSelection(); 
+
+                            setSelecction(rowData[2].toString(), rowData[4].toString());
+
+                            selectedID = (Integer) rowData[0];
+
+                            pendingUsers();
+                        } else { 
+                            startButtons();
+                            System.out.println("NO AL MISMO USUARIO ");
+                            
+                            System.out.println("Logged User" + actualUser.getUsuario_Nombre().toString());
+                        }
                     }
                 }
             }
@@ -81,13 +92,21 @@ public class ControladorUsuarios implements ActionListener, KeyListener {
                         for (int i = 0; i < modeloB.getColumnCount(); i++) {
                             rowData[i] = modeloB.getValueAt(selectedRow, i);
                         } 
+                        if( !actualUser.getUsuario_Nombre().equals(String.valueOf(rowData[1]))){
+                            
                         
-                        uVista.TablaSolicitudes.clearSelection();   
-                        setSelecction(rowData[2].toString(), rowData[4].toString()); 
-                        
-                        selectedID = (Integer) rowData[0];
-                        
-                        enabledUsers();
+                            uVista.TablaSolicitudes.clearSelection();   
+                            setSelecction(rowData[2].toString(), rowData[4].toString()); 
+
+                            selectedID = (Integer) rowData[0];
+
+                            enabledUsers();
+                        }else {
+                            startButtons();
+                            System.out.println("NO AL MISMO USUARIO ");
+                            System.out.println("Logged User" + actualUser.getUsuario_Nombre().toString());
+
+                        }
                     }
                 }
             }
@@ -102,13 +121,11 @@ public class ControladorUsuarios implements ActionListener, KeyListener {
         
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-
-        // Aplicar el renderizador a cada columna si deseas centrar todas
+ 
         for (int columnIndex = 0; columnIndex < this.uVista.TablaSolicitudes.getColumnCount(); columnIndex++) {
             this.uVista.TablaSolicitudes.getColumnModel().getColumn(columnIndex).setCellRenderer(centerRenderer);
         }
         
-        // Aplicar el renderizador a cada columna si deseas centrar todas
         for (int columnIndex = 0; columnIndex < this.uVista.TablaUsuarios.getColumnCount(); columnIndex++) {
             this.uVista.TablaUsuarios.getColumnModel().getColumn(columnIndex).setCellRenderer(centerRenderer);
         }
@@ -130,28 +147,37 @@ public class ControladorUsuarios implements ActionListener, KeyListener {
         uVista.txtUsuarioSeleccionado.setText(userName);
     }
     
+    public void setUser(Usuario user){
+        this.actualUser = user;
+        System.out.println("Logged User" + actualUser.getUsuario_Nombre().toString());
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         
         //Nuevos
         if(e.getSource() == uVista.btnAceptarSolicitud){ 
             daoInstance.SetPermisos(selectedID ,uVista.comboBoxPermisos.getSelectedItem().toString());
+            startButtons();
             listarTablas();
         }
         
         if(e.getSource() == uVista.btnDenegar){ 
             daoInstance.Eliminar(selectedID);
+            startButtons();
             listarTablas();
         }
         
         //Existentes
         if(e.getSource() == uVista.btnEstablecerPermisos){ 
             daoInstance.SetPermisos(selectedID ,uVista.comboBoxPermisos.getSelectedItem().toString());
+            startButtons();
             listarTablas();
         }
         
         if(e.getSource() == uVista.btnEliminarUsuario){  
             daoInstance.Eliminar(selectedID);
+            startButtons();
             listarTablas();
         }
         
@@ -161,16 +187,7 @@ public class ControladorUsuarios implements ActionListener, KeyListener {
         
         //Volver
         if(e.getSource() == uVista.btnVolver){ 
-            System.out.println("CLICKED RIGHT");
-            MovimientosVista mVista = new MovimientosVista(); 
-
-            mVista.setVisible(true);
-            mVista.setLocationRelativeTo(null); 
-            ControladorMovimientos mController = new ControladorMovimientos(mVista);
-            mController.listar(mVista.MovimientosTabla);
-            
-            uVista.setVisible(false);
-            uVista.dispose();
+            launchMovementView(this.actualUser);
             
         }
         
@@ -184,6 +201,22 @@ public class ControladorUsuarios implements ActionListener, KeyListener {
         } catch (SQLException ex) {
             Logger.getLogger(ControladorUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         } 
+    }
+    
+    private void launchMovementView(Usuario datos){
+        MovimientosVista mVista = new MovimientosVista();
+        mVista.setVisible(true);
+        mVista.setLocationRelativeTo(null); 
+        
+        ControladorMovimientos mController = new ControladorMovimientos(mVista);
+         
+        mController.arrayMembers();
+        mController.setUser(datos);
+        mController.listar(mVista.MovimientosTabla);
+        mController.arrayMembers();
+        
+        this.uVista.setVisible(false);
+        this.uVista.dispose();
     }
     
     public void launch(){

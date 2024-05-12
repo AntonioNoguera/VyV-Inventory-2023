@@ -25,10 +25,11 @@ public class LoginVista extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        labelPhone = new javax.swing.JLabel();
         btnRegistrarContinuar = new javax.swing.JButton();
         btnRegistrarVolver = new javax.swing.JButton();
         txtRegistrarTelefono = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
         InicioSesionContainer = new javax.swing.JPanel();
         txt_inicio_usuario = new javax.swing.JTextField();
         txt_inicio_password = new javax.swing.JTextField();
@@ -36,6 +37,7 @@ public class LoginVista extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btnIniciarSesion = new javax.swing.JButton();
         btnNuevoUsuario = new javax.swing.JButton();
+        conexionState = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -73,7 +75,7 @@ public class LoginVista extends javax.swing.JFrame {
 
         jLabel6.setText("Constraseña:");
 
-        jLabel7.setText("Verifica Contraseña:");
+        labelPhone.setText("Numero Telefonico:");
 
         btnRegistrarContinuar.setText("Continuar");
         btnRegistrarContinuar.addActionListener(new java.awt.event.ActionListener() {
@@ -89,7 +91,13 @@ public class LoginVista extends javax.swing.JFrame {
             }
         });
 
-        txtRegistrarTelefono.setText("jTextField1");
+        txtRegistrarTelefono.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtRegistrarTelefonoActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Verifica Contraseña:");
 
         javax.swing.GroupLayout NuevoUsuarioContainerLayout = new javax.swing.GroupLayout(NuevoUsuarioContainer);
         NuevoUsuarioContainer.setLayout(NuevoUsuarioContainerLayout);
@@ -101,31 +109,39 @@ public class LoginVista extends javax.swing.JFrame {
                         .addGap(70, 70, 70)
                         .addGroup(NuevoUsuarioContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
-                            .addGroup(NuevoUsuarioContainerLayout.createSequentialGroup()
-                                .addGap(35, 35, 35)
-                                .addComponent(jLabel6))
                             .addComponent(jLabel4)))
                     .addGroup(NuevoUsuarioContainerLayout.createSequentialGroup()
                         .addGap(56, 56, 56)
-                        .addComponent(btnRegistrarVolver))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NuevoUsuarioContainerLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel7)
-                        .addGap(3, 3, 3)))
-                .addGap(36, 36, 36)
+                        .addComponent(btnRegistrarVolver)))
                 .addGroup(NuevoUsuarioContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(NuevoUsuarioContainerLayout.createSequentialGroup()
-                        .addComponent(txtRegistrarTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
+                        .addGroup(NuevoUsuarioContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtRegistrarNombreCompleto, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                            .addComponent(txtRegistrarUsuario))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NuevoUsuarioContainerLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnRegistrarContinuar)
-                        .addGap(68, 68, 68))
+                        .addGap(61, 61, 61))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NuevoUsuarioContainerLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(NuevoUsuarioContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(NuevoUsuarioContainerLayout.createSequentialGroup()
-                        .addGroup(NuevoUsuarioContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtRegistrarPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                            .addComponent(txtRegistrarNombreCompleto)
-                            .addComponent(txtRegistrarPasswordV)
-                            .addComponent(txtRegistrarUsuario))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(34, 34, 34)
+                        .addComponent(jLabel6))
+                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(36, 36, 36)
+                .addGroup(NuevoUsuarioContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtRegistrarPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                    .addComponent(txtRegistrarPasswordV))
+                .addGap(91, 91, 91))
+            .addGroup(NuevoUsuarioContainerLayout.createSequentialGroup()
+                .addGap(91, 91, 91)
+                .addComponent(labelPhone)
+                .addGap(36, 36, 36)
+                .addComponent(txtRegistrarTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         NuevoUsuarioContainerLayout.setVerticalGroup(
             NuevoUsuarioContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,25 +154,23 @@ public class LoginVista extends javax.swing.JFrame {
                 .addGroup(NuevoUsuarioContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtRegistrarNombreCompleto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addGroup(NuevoUsuarioContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtRegistrarTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelPhone))
                 .addGap(18, 18, 18)
                 .addGroup(NuevoUsuarioContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtRegistrarPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(NuevoUsuarioContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtRegistrarPasswordV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
-                .addGroup(NuevoUsuarioContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(NuevoUsuarioContainerLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                        .addGroup(NuevoUsuarioContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnRegistrarContinuar)
-                            .addComponent(btnRegistrarVolver))
-                        .addGap(35, 35, 35))
-                    .addGroup(NuevoUsuarioContainerLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(txtRegistrarTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(jLabel8))
+                .addGap(48, 48, 48)
+                .addGroup(NuevoUsuarioContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRegistrarVolver)
+                    .addComponent(btnRegistrarContinuar))
+                .addContainerGap())
         );
 
         InicioSesionContainer.setBorder(javax.swing.BorderFactory.createTitledBorder("Inicio de Sesión"));
@@ -228,6 +242,8 @@ public class LoginVista extends javax.swing.JFrame {
                         .addContainerGap())))
         );
 
+        conexionState.setText("jLabel5");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -241,15 +257,21 @@ public class LoginVista extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(NuevoUsuarioContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(255, 255, 255)
+                .addComponent(conexionState)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(InicioSesionContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(45, 45, 45)
                 .addComponent(NuevoUsuarioContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(conexionState)
+                .addContainerGap(157, Short.MAX_VALUE))
         );
 
         NuevoUsuarioContainer.getAccessibleContext().setAccessibleName("Inicio de Sesion");
@@ -286,6 +308,10 @@ public class LoginVista extends javax.swing.JFrame {
         // TODO add your handling code here: 
     }//GEN-LAST:event_btnRegistrarVolverActionPerformed
 
+    private void txtRegistrarTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRegistrarTelefonoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtRegistrarTelefonoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -312,13 +338,15 @@ public class LoginVista extends javax.swing.JFrame {
     public javax.swing.JButton btnNuevoUsuario;
     public javax.swing.JButton btnRegistrarContinuar;
     public javax.swing.JButton btnRegistrarVolver;
+    public javax.swing.JLabel conexionState;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel labelPhone;
     public javax.swing.JTextField txtRegistrarNombreCompleto;
     public javax.swing.JTextField txtRegistrarPassword;
     public javax.swing.JTextField txtRegistrarPasswordV;

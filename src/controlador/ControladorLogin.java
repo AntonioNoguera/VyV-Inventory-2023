@@ -22,6 +22,8 @@ public class ControladorLogin implements ActionListener, KeyListener {
     UsuarioDAO daoInstance = new UsuarioDAO();
     LoginVista uVista = new LoginVista();
     
+    Usuario actualUser = new Usuario() ;
+    
     public ControladorLogin(LoginVista v){
         this.uVista = v; 
         
@@ -29,6 +31,8 @@ public class ControladorLogin implements ActionListener, KeyListener {
         this.uVista.btnNuevoUsuario.addActionListener(this);
         this.uVista.btnRegistrarContinuar.addActionListener(this);
         this.uVista.btnRegistrarVolver.addActionListener(this);
+        
+        setConextionState();
     }
     
     @Override
@@ -74,25 +78,20 @@ public class ControladorLogin implements ActionListener, KeyListener {
             
             if(daoInstance.userExist(user)){
                 Usuario userB = daoInstance.getFullUser(user); 
-                if(userB.getUsuario_Activado()){
-                        if(utils.hashPassword(user.getUsuario_Password(), userB.getUsuario_Salt()).equals(userB.getUsuario_Password())){
+                if(userB.getUsuario_Activado()) {
+                    if(utils.hashPassword(user.getUsuario_Password(), userB.getUsuario_Salt()).equals(userB.getUsuario_Password())) {
 
+                    launchMovementView(userB);
 
-                        MovimientosVista mVista = new MovimientosVista(); 
-
-                        mVista.setVisible(true);
-                        mVista.setLocationRelativeTo(null); 
-                        this.uVista.setVisible(false);
-                        this.uVista.dispose();
-                    }else{
+                    } else {
                         System.out.println("It doesnt matches");
                     }
+                        
                 } else {
                     System.out.println("El usuario aun no esta aceptado por el administrador");
                 }
                 
-                
-            }else{
+            } else {
                 System.out.println("El usuario no existe");
             }
         }
@@ -126,12 +125,22 @@ public class ControladorLogin implements ActionListener, KeyListener {
         return 1;
     }
     
+    private void setConextionState(){
+        if(this.daoInstance.tryOutConection()){
+            this.uVista.conexionState.setText("Conexion Exitosa");
+        }else{
+            this.uVista.conexionState.setText("Problemas en la base de datos: Consulte soporte Tecnico");
+        }
+    }
+    
     private void launchMovementView(Usuario datos){
         MovimientosVista mVista = new MovimientosVista();
         mVista.setVisible(true);
         mVista.setLocationRelativeTo(null); 
         
         ControladorMovimientos mController = new ControladorMovimientos(mVista);
+         
+        mController.arrayMembers();
         mController.setUser(datos);
         mController.listar(mVista.MovimientosTabla);
         mController.arrayMembers();

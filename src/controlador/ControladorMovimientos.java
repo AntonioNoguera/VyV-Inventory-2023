@@ -15,9 +15,13 @@ import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel; 
+import modelo.Grupo;
 import modelo.Movimientos;
 import modelo.Usuario;
+import vistas.ElementoVista;
+import vistas.GrupoVista;
 import vistas.MovimientosVista;
+import vistas.UsuariosVista;
 
 /**
  *
@@ -36,28 +40,44 @@ public class ControladorMovimientos implements ActionListener, KeyListener {
         this.dVista.btnGuardar.addActionListener(this);
         this.dVista.jButton1.addActionListener(this);
         
+        this.dVista.btnElementos.addActionListener(this);
+        this.dVista.btnGrupos.addActionListener(this);
+        this.dVista.btnUsuario.addActionListener(this);
+        
         this.dVista.MovimientosTabla.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
                     int selectedRow = dVista.MovimientosTabla.getSelectedRow();
                     if (selectedRow != -1) {
+                        
                         // Obtener datos de la fila seleccionada
                         Object[] rowData = new Object[modelo.getColumnCount()];
-                         
-                        for (int i = 0; i < modelo.getColumnCount(); i++) {
-                            rowData[i] = modelo.getValueAt(selectedRow, i);
-                        }
-                        dVista.txtMovimientoID.setText(String.valueOf(rowData[0]));
-                        dVista.comboEntrada.setSelectedItem(String.valueOf(rowData[3]));
-                        dVista.comboElemento.setSelectedItem(String.valueOf(rowData[1]));
-                        dVista.txtCantidad.setText(String.valueOf(rowData[2]));  
                         
-                        dVista.btnEliminar.setEnabled(true);
-                        dVista.jButton1.setEnabled(true);
-                        dVista.btnGuardar.setEnabled(false);
-                        dVista.btnActualizar.setEnabled(true); 
-                        dVista.comboElemento.setEnabled(false);
+                        for (int i = 0; i < modelo.getColumnCount(); i++) {
+                                rowData[i] = modelo.getValueAt(selectedRow, i);
+                        }
+                        
+                        if(loggedUser.getUsuario_Permisos().equals("Administrador") 
+                                || loggedUser.getUsuario_Completo().equals(String.valueOf(rowData[5]))){
+                            
+                            dVista.txtMovimientoID.setText(String.valueOf(rowData[0])); 
+                            dVista.comboElemento.setSelectedItem(String.valueOf(rowData[1]));
+                            dVista.txtCantidad.setText(String.valueOf(rowData[2]));  
+                            dVista.comboEntrada.setSelectedItem(String.valueOf(rowData[3]));
+                           
+
+                            dVista.btnEliminar.setEnabled(true);
+                            dVista.jButton1.setEnabled(true);
+                            dVista.btnGuardar.setEnabled(false);
+                            dVista.btnActualizar.setEnabled(true); 
+                            dVista.comboElemento.setEnabled(false);
+                        } else {
+                            //Toast no tu movimiento
+                            ClearALL(); 
+                        }
+                        
+                        
                     }
                 }
             }
@@ -86,11 +106,12 @@ public class ControladorMovimientos implements ActionListener, KeyListener {
     }
     
     public void listar(JTable tabla){ 
-        modelo=(DefaultTableModel)tabla.getModel();
+        modelo = (DefaultTableModel)tabla.getModel();
         modelo.setRowCount(0);
         List<Movimientos> lista=dao.listar();
         Object[] object = new Object[7]; 
-        for(int i=lista.size()-1;i>-1;i--){
+        for(int i=lista.size()-1; i > -1; i--){
+            
             object[0] = lista.get(i).getMovimiento_ID();
             object[1] = lista.get(i).getElementoNombre();
             object[2] = lista.get(i).getMovimiento_Cant();
@@ -99,6 +120,7 @@ public class ControladorMovimientos implements ActionListener, KeyListener {
             object[4] = lista.get(i).getMovimiento_Tiempo();
             object[5] = lista.get(i).getUsuario_Responsable();
             modelo.addRow(object); 
+            
         }
         dVista.MovimientosTabla.setModel(modelo);
     }
@@ -120,13 +142,63 @@ public class ControladorMovimientos implements ActionListener, KeyListener {
         if(e.getSource()==dVista.btnActualizar){
             actualizar();
         }
+        
+        
+        if(e.getSource()==dVista.btnElementos){
+            ElementoVista eVista = new ElementoVista(); 
+
+            ControladorElemento c = new ControladorElemento(eVista); 
+
+            eVista.setVisible(true);
+            c.arrayMembers();
+            eVista.setLocationRelativeTo(null);
+            c.listar(eVista.ElementosTabla);
+            c.setUser(this.loggedUser);
+
+            this.dVista.setVisible(false);
+            this.dVista.dispose();
+        }
+        
+        if(e.getSource()==dVista.btnGrupos){
+            Grupo g = new Grupo();
+            GrupoVista gVista = new GrupoVista(); 
+
+            ControladorGrupo c = new ControladorGrupo(gVista); 
+            
+            c.setUser(this.loggedUser);
+            c.listar(gVista.tablaGrupo); 
+            gVista.setVisible(true);
+            gVista.setLocationRelativeTo(null);
+            
+            this.dVista.setVisible(false);
+            this.dVista.dispose();
+            
+        }
+        
+        if(e.getSource()==dVista.btnUsuario){
+            UsuariosVista uVista = new UsuariosVista(); 
+        
+            ControladorUsuarios c = new ControladorUsuarios(uVista); 
+            uVista.setVisible(true);
+            uVista.setLocationRelativeTo(null);
+
+            c.setUser(this.loggedUser);
+            c.startButtons();
+            c.listarTablas();
+            
+            this.dVista.setVisible(false);
+            this.dVista.dispose();
+        }
     }
     
     public void eliminar(){
         String tipoMov = (String) dVista.comboEntrada.getSelectedItem();
         String elementoNombre = (String) dVista.comboElemento.getSelectedItem();
+        
         Float cantidad = Float.valueOf(dVista.txtCantidad.getText());
+        
         Integer id = Integer.valueOf(dVista.txtMovimientoID.getText());  
+        
         if(dao.Eliminar(new Movimientos(id,tipoMov, elementoNombre,cantidad))==1){
            ClearALL();
         }else{
@@ -134,8 +206,6 @@ public class ControladorMovimientos implements ActionListener, KeyListener {
         }
         listar(dVista.MovimientosTabla);
     }
-    
-    
 
     public void actualizar(){
         String tipoMov = (String) dVista.comboEntrada.getSelectedItem();

@@ -14,7 +14,17 @@ public class conexion {
     String driver="com.mysql.cj.jdbc.Driver";
     Connection cx;
     
-    public conexion(){}
+    public boolean testConectionMySQL(){
+        try {
+            Class.forName(driver);
+            cx = DriverManager.getConnection(url+db,user,password); 
+            return true;
+        }catch (ClassNotFoundException |SQLException ex){ 
+            System.out.println("No se conecto!");
+            
+            return false;
+        }
+    }
     
     public Connection conectar(){
         try {
@@ -27,6 +37,7 @@ public class conexion {
         
         return cx;
     }
+    
     
     public void desconectar(){
         try {

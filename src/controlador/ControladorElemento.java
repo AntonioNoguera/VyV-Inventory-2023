@@ -13,14 +13,19 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import modelo.Elemento;
+import modelo.Usuario;
 import modelo_dao.ElementosDAO; 
 import vistas.ElementoVista; 
+import vistas.MovimientosVista;
 
 public class ControladorElemento implements ActionListener, KeyListener { 
     ElementosDAO dao = new ElementosDAO();
     Elemento e = new Elemento();
     ElementoVista eVista = new ElementoVista();
-    DefaultTableModel modelo = new DefaultTableModel(); 
+    DefaultTableModel modelo = new DefaultTableModel();
+    
+    Usuario actualUser = new Usuario() ;
+    
     
     public ControladorElemento(ElementoVista v){
         this.eVista=v;  
@@ -28,6 +33,7 @@ public class ControladorElemento implements ActionListener, KeyListener {
         this.eVista.btnEliminar.addActionListener(this);
         this.eVista.btnActualizar.addActionListener(this);
         this.eVista.btnLimpiar.addActionListener(this);
+        this.eVista.btnVolver.addActionListener(this);
         
         this.eVista.txtElementoCantidad.addKeyListener(this); 
         this.eVista.txtElementoDesc.addKeyListener(this); 
@@ -98,6 +104,12 @@ public class ControladorElemento implements ActionListener, KeyListener {
         }
         baseStateButton();
         eVista.ElementosTabla.setModel(modelo);
+    }
+    
+    public void setUser(Usuario user){
+        this.actualUser = user;
+        
+        System.out.println("Logged User" + this.actualUser.getUsuario_Nombre().toString());
     }
     
     public void agregar(){ 
@@ -202,7 +214,28 @@ public class ControladorElemento implements ActionListener, KeyListener {
         if(e.getSource()==eVista.btnLimpiar){ 
             clearALL();
         }
+        
+        if(e.getSource()==eVista.btnVolver){ 
+            launchMovementView(this.actualUser);
+        }
     }
+    
+    private void launchMovementView(Usuario datos){
+        MovimientosVista mVista = new MovimientosVista();
+        mVista.setVisible(true);
+        mVista.setLocationRelativeTo(null); 
+        
+        ControladorMovimientos mController = new ControladorMovimientos(mVista);
+         
+        mController.arrayMembers();
+        mController.setUser(datos);
+        mController.listar(mVista.MovimientosTabla);
+        mController.arrayMembers();
+        
+        this.eVista.setVisible(false);
+        this.eVista.dispose();
+    }
+    
     
     public void clearALL(){
         eVista.txtElementoID.setText("");

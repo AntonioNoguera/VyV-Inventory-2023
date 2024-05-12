@@ -276,31 +276,11 @@ public class MovimientosVista extends javax.swing.JFrame {
 
     private void btnElementosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElementosActionPerformed
         // TODO add your handling code here: 
-        ElementoVista eVista = new ElementoVista(); 
-
-        ControladorElemento c = new ControladorElemento(eVista); 
-
-        eVista.setVisible(true);
-        c.arrayMembers();
-        eVista.setLocationRelativeTo(null);
-        c.listar(eVista.ElementosTabla);
         
-        this.setVisible(false);
-        this.dispose();
     }//GEN-LAST:event_btnElementosActionPerformed
 
     private void btnGruposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGruposActionPerformed
-        Grupo g = new Grupo();
-        GrupoVista gVista = new GrupoVista(); 
-
-        ControladorGrupo c = new ControladorGrupo(gVista); 
         
-        gVista.setVisible(true);
-        gVista.setLocationRelativeTo(null);
-        c.listar(gVista.tablaGrupo); 
-        this.setVisible(false);
-        
-        this.dispose();
     }//GEN-LAST:event_btnGruposActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -317,17 +297,7 @@ public class MovimientosVista extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuarioActionPerformed
-        // TODO add your handling code here: 
-        UsuariosVista uVista = new UsuariosVista(); 
-        
-        ControladorUsuarios c = new ControladorUsuarios(uVista); 
-        uVista.setVisible(true);
-        uVista.setLocationRelativeTo(null); 
-        this.setVisible(false);
-        this.dispose();
-        
-        c.startButtons();
-        c.listarTablas();
+        // TODO add your handling code here:  
     }//GEN-LAST:event_btnUsuarioActionPerformed
 
     /**
