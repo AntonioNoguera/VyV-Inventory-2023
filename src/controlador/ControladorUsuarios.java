@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JTable;
+import javax.swing.JOptionPane; 
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -69,8 +69,8 @@ public class ControladorUsuarios implements ActionListener, KeyListener {
 
                             pendingUsers();
                         } else { 
-                            startButtons();
-                            System.out.println("NO AL MISMO USUARIO ");
+                            startButtons();JOptionPane.showMessageDialog(null, "No es posible establecer permisos a tu usuario.", 
+                                                "Alerta", JOptionPane.WARNING_MESSAGE);
                             
                             System.out.println("Logged User" + actualUser.getUsuario_Nombre().toString());
                         }
@@ -103,8 +103,8 @@ public class ControladorUsuarios implements ActionListener, KeyListener {
                             enabledUsers();
                         }else {
                             startButtons();
-                            System.out.println("NO AL MISMO USUARIO ");
-                            System.out.println("Logged User" + actualUser.getUsuario_Nombre().toString());
+                            startButtons();JOptionPane.showMessageDialog(null, "No es posible modificar los permisos de tu usuario.", 
+                                                "Alerta", JOptionPane.WARNING_MESSAGE);
 
                         }
                     }
@@ -190,7 +190,6 @@ public class ControladorUsuarios implements ActionListener, KeyListener {
             launchMovementView(this.actualUser);
             
         }
-        
            
     }
     
@@ -217,10 +216,6 @@ public class ControladorUsuarios implements ActionListener, KeyListener {
         
         this.uVista.setVisible(false);
         this.uVista.dispose();
-    }
-    
-    public void launch(){
-        System.out.println("testing");
     }
     
     public void listarPendientes() throws SQLException{

@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 import modelo_dao.UsuarioDAO;
 import modelo.Usuario;
@@ -84,15 +85,18 @@ public class ControladorLogin implements ActionListener, KeyListener {
                     launchMovementView(userB);
 
                     } else {
-                        System.out.println("It doesnt matches");
+                        JOptionPane.showMessageDialog(null, "Contraseña Incorrecta", 
+                                                "Alerta", JOptionPane.WARNING_MESSAGE);
                     }
                         
                 } else {
-                    System.out.println("El usuario aun no esta aceptado por el administrador");
+                    JOptionPane.showMessageDialog(null, "El usuario esta pendiente de ser aceptado por un administrador.", 
+                                                "Alerta", JOptionPane.WARNING_MESSAGE);
                 }
                 
             } else {
-                System.out.println("El usuario no existe");
+                JOptionPane.showMessageDialog(null, "El usuario no existe.", 
+                                                "Alerta", JOptionPane.WARNING_MESSAGE);
             }
         }
         
@@ -110,19 +114,44 @@ public class ControladorLogin implements ActionListener, KeyListener {
             
             //Verify matching password a and b 
             if(!daoInstance.userExist(user)){
-                if( getLogupPass().equals(getLogupPassb()) ) { 
-                        System.out.println("Login");
+                if( getLogupPass().equals(getLogupPassb()) ) {  
+                    
+                    if(verifyPhoneNumber(uVista.txtRegistrarTelefono.getText())){ 
+                        daoInstance.addUser(user);
                         clearRegistry();
-                        System.out.println("EL REGISTRO SE HA REALIZADO CON EXITO, ESPERA A QUE SE CONFIRME TU PETICION"); 
-                        
+                        JOptionPane.showMessageDialog(null, "Tu registro se ha realizado con exito, espera a que un administrador confirme tu peticion.", 
+                                                "Alerta", JOptionPane.WARNING_MESSAGE);
+                    }
+                    
                      
                 } else {
-                    System.out.println(" Password Wont Match! ");
+                    JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden, verifique sus contraseñas", 
+                                                "Alerta", JOptionPane.WARNING_MESSAGE);
                 }
-                daoInstance.addUser(user);
+            } else {
+                JOptionPane.showMessageDialog(null, "El usuario ya existe en la base de datos, intenta con otro", 
+                                                "Alerta", JOptionPane.WARNING_MESSAGE);
             }
         }
         return 1;
+    }
+    
+    private boolean verifyPhoneNumber(String phoneString){
+        if(phoneString.length() < 10){
+            JOptionPane.showMessageDialog(null, "El telefono no cumple el tamaño mínimo.", 
+                                                "Alerta", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        
+        try {
+            Integer.valueOf(phoneString);
+        } catch (NumberFormatException e) { 
+            JOptionPane.showMessageDialog(null, "El telefono  es un número no válido.", 
+                                                "Alerta", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        
+        return true;
     }
     
     private void setConextionState(){

@@ -20,6 +20,7 @@ import modelo.Movimientos;
 import modelo.Usuario;
 import vistas.ElementoVista;
 import vistas.GrupoVista;
+import vistas.LoginVista;
 import vistas.MovimientosVista;
 import vistas.UsuariosVista;
 
@@ -39,6 +40,7 @@ public class ControladorMovimientos implements ActionListener, KeyListener {
         this.dVista=v;  
         this.dVista.btnGuardar.addActionListener(this);
         this.dVista.jButton1.addActionListener(this);
+        this.dVista.btnCerrarSesion.addActionListener(this);
         
         this.dVista.btnElementos.addActionListener(this);
         this.dVista.btnGrupos.addActionListener(this);
@@ -72,8 +74,9 @@ public class ControladorMovimientos implements ActionListener, KeyListener {
                             dVista.btnGuardar.setEnabled(false);
                             dVista.btnActualizar.setEnabled(true); 
                             dVista.comboElemento.setEnabled(false);
-                        } else {
-                            //Toast no tu movimiento
+                        } else { 
+                            JOptionPane.showMessageDialog(null, "No puedes editar movimientos que no hayan sido realizados por ti.", 
+                                                "Alerta", JOptionPane.WARNING_MESSAGE);
                             ClearALL(); 
                         }
                         
@@ -85,18 +88,19 @@ public class ControladorMovimientos implements ActionListener, KeyListener {
         
         this.dVista.btnEliminar.addActionListener(this); 
         this.dVista.txtCantidad.addKeyListener(this);
-        this.dVista.btnActualizar.addActionListener(this);
-        baseStateButtons();   
+        this.dVista.btnActualizar.addActionListener(this);  
     }
     
     public void setUser(Usuario logUser){
-        this.loggedUser = logUser;
-        
-        System.out.println("Logged User" + this.loggedUser.getUsuario_Nombre().toString());
+        this.loggedUser = logUser; 
+        baseStateButtons(); 
         
     }
     
     private void baseStateButtons(){
+         
+        this.dVista.btnUsuario.setEnabled((loggedUser.getUsuario_Permisos()).equals("Administrador"));
+        
         this.dVista.btnGuardar.setEnabled(false);
         this.dVista.btnEliminar.setEnabled(false);
         this.dVista.jButton1.setEnabled(false);
@@ -143,6 +147,17 @@ public class ControladorMovimientos implements ActionListener, KeyListener {
             actualizar();
         }
         
+        if(e.getSource()==dVista.btnCerrarSesion){
+            LoginVista lVista = new LoginVista();
+            
+            ControladorLogin c = new ControladorLogin(lVista); 
+            
+            lVista.setVisible(true); 
+            lVista.setLocationRelativeTo(null);
+            
+            this.dVista.setVisible(false);
+            this.dVista.dispose();
+        }
         
         if(e.getSource()==dVista.btnElementos){
             ElementoVista eVista = new ElementoVista(); 

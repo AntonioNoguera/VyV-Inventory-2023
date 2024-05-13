@@ -107,9 +107,7 @@ public class ControladorElemento implements ActionListener, KeyListener {
     }
     
     public void setUser(Usuario user){
-        this.actualUser = user;
-        
-        System.out.println("Logged User" + this.actualUser.getUsuario_Nombre().toString());
+        this.actualUser = user; 
     }
     
     public void agregar(){ 
