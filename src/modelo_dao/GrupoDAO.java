@@ -45,19 +45,18 @@ public class GrupoDAO {
     public int Agregar(Grupo g){
         String sql3= "SELECT COUNT(*) FROM tabla_grupos WHERE grupo_nombre = ?";
            
-           Integer nameCount=0;
+           Integer nameCount = 0;
            
-           try{
+           try {
                con = conectar.conectar();
-               ps=con.prepareStatement(sql3);
+               ps = con.prepareStatement(sql3);
                ps.setString(1, g.getGrupo_Nombre());
-               rsB=ps.executeQuery();
-               if(rsB.next()){ 
+               rsB = ps.executeQuery();
+               
+               if(rsB.next()) { 
                     nameCount = rsB.getInt(1);
-               }
-               System.out.println("NAME COUNT:"+nameCount);
-           }catch(SQLException er){
-                System.out.println("Error: "+er);
+               } 
+           } catch(SQLException er){ 
                 return 0;
            }
            
@@ -66,13 +65,11 @@ public class GrupoDAO {
                 JOptionPane.showMessageDialog(null, "Ya existe un elemento registrado con ese nombre, prueba con otro, o intenta actualizar anterior registro!.", "Alerta", JOptionPane.WARNING_MESSAGE);
                 return 0;
            }
-           
-        
         
            String sql = "INSERT INTO tabla_grupos(grupo_nombre,grupo_desc) VALUES (?,?)";
            try{
-               con = conectar.conectar();
-               ps=con.prepareStatement(sql);
+               
+               ps = con.prepareStatement(sql);
                ps.setString(1, g.getGrupo_Nombre());
                ps.setString(2, g.getGrupo_Desc());
                ps.executeUpdate();
@@ -180,6 +177,4 @@ public class GrupoDAO {
            }
            
     }
-     
-    
 }

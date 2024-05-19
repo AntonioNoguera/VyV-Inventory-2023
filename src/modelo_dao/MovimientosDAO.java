@@ -105,10 +105,9 @@ public class MovimientosDAO {
         }
        
        return(elementosCombo);
-    }
+    } 
     
-    //ocupa cambios
-     public int Agregar(Movimientos m,Integer userID){ 
+    public int Agregar(Movimientos m,Integer userID){ 
          
            Float actualAmount = null;
            Integer elementoID = null;

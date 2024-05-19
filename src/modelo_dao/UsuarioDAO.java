@@ -25,9 +25,6 @@ public class UsuarioDAO {
     ResultSet rs;
     ResultSet rsB;
     
-    
-    
-    
     //Consultas requeridas
     public String getUser = "SELECT * FROM tabla_usuarios WHERE usuario_activado = ?";
     public String newUser = "INSERT INTO tabla_usuarios(usuario_nombre, usuario_completo, usuario_password, usuario_telefono, usuario_salt, usuario_activado) VALUES (?,?,?,?,?,?)";
@@ -204,6 +201,4 @@ public class UsuarioDAO {
 
         return new Usuario();
     }
-    
-   
 }

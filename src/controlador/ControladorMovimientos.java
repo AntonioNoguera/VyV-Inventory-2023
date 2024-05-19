@@ -93,6 +93,10 @@ public class ControladorMovimientos implements ActionListener, KeyListener {
     
     public void setUser(Usuario logUser){
         this.loggedUser = logUser; 
+        
+        this.dVista.UserTypeLabel.setText(logUser.getUsuario_Permisos());
+        this.dVista.UserIdentificationLabel.setText(logUser.getUsuario_Nombre());
+        
         baseStateButtons(); 
         
     }
@@ -151,7 +155,8 @@ public class ControladorMovimientos implements ActionListener, KeyListener {
             LoginVista lVista = new LoginVista();
             
             ControladorLogin c = new ControladorLogin(lVista); 
-            
+            lVista.InicioSesionContainer.setVisible(true);
+            lVista.NuevoUsuarioContainer.setVisible(false);
             lVista.setVisible(true); 
             lVista.setLocationRelativeTo(null);
             
